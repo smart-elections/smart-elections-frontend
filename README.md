@@ -63,4 +63,3 @@ Using external api or something to fetch latest news and display them
 ## TODO
 
 - Create a flowchart ?
-
