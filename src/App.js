@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './app.scss';
+import './Styles/dark.scss';
+import './Styles/colors.scss';
+import { DarkModeContext } from './context/darkModeContext';
 import Login from './Pages/login/Login';
 import Signup from './Pages/signup/Signup';
 import Analysis from './Pages/analysis/Analysis';
@@ -17,9 +20,27 @@ import Sidebar from './components/sidebar/Sidebar';
 import Navbar from './components/navbar/Navbar';
 
 const App = () => {
+  const { darkMode, dispatch } = useContext(DarkModeContext);
+  const [componentMounted, setComponentMounted] = useState(false);
+
+  useEffect(() => {
+    const localTheme = window.localStorage.getItem('smartVotingTheme');
+    if (localTheme) {
+      dispatch({ type: localTheme });
+    } else {
+      dispatch({ type: 'LIGHT' });
+      window.localStorage.setItem('smartVotingTheme', 'LIGHT');
+    }
+    setComponentMounted(true);
+  }, [dispatch]);
+
+  if (!componentMounted) {
+    return <div />;
+  }
+
   return (
     <BrowserRouter>
-      <div className='app'>
+      <div className={darkMode ? 'app dark' : 'app'}>
         <Sidebar />
         <div className='appContainer'>
           <Navbar />
