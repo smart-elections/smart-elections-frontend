@@ -1,0 +1,12 @@
+.app {
+    display: flex;
+
+    .appContainer {
+        flex: 6;
+    }
+
+    .routesWrapper{
+        padding: 15px;
+        height: max-content;
+    }
+}
