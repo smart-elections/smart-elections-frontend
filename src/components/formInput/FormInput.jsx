@@ -1,25 +1,10 @@
 import './formInput.scss';
 
-const FormInput = ({
-  type,
-  placeholder,
-  name,
-  value,
-  onChange,
-  errorMessage,
-}) => {
+const FormInput = ({ onChange, errorMessage, ...inputProps }) => {
   return (
     <div className='formInput'>
-      <input
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        value={value}
-        onChange={onChange}
-        autoComplete='off'
-        required
-      />
-      <span>{errorMessage}</span>
+      <input {...inputProps} onChange={onChange} autoComplete='off' />
+      <span>{errorMessage && errorMessage}</span>
     </div>
   );
 };
