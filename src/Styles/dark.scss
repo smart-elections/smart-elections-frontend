@@ -1,0 +1,58 @@
+.app.dark {
+  background-color: var(--dark-background-secondary-color);
+  color: var(--dark-text-color);
+
+  .navbar {
+    color: var(--dark-text-color);
+    border-color: var(--dark-border-color);
+
+    .items {
+      .item {
+        .icon {
+          color: var(--dark-icon-color);
+        }
+      }
+    }
+  }
+
+  .sidebar {
+    background-color: var(--dark-background-secondary-color);
+    border-color: var(--dark-border-color);
+
+    .top {
+      img {
+        background-color: var(--light-background-secondary-color);
+      }
+    }
+
+    hr {
+      border-color: var(--dark-border-color);
+    }
+
+    .centerUnorderedList {
+      li {
+        &:hover {
+          background-color: #545454;
+        }
+
+        .icon {
+          color: var(--dark-icon-color);
+        }
+
+        span {
+          color: var(--dark-text-color);
+        }
+      }
+
+      .activeNavLink {
+        li {
+          background-color: #787878;
+        }
+      }
+    }
+  }
+
+  input {
+    background-color: transparent;
+  }
+}
