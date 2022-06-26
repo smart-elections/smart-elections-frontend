@@ -1,0 +1,54 @@
+.navbar{
+    height: 50px;
+    border-bottom: 1px solid rgb(217, 216, 216);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+
+    .wrapper{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+    }
+
+    .search {
+        display: flex;
+        align-items: center;
+        border: 0.5px solid lightgrey;
+        padding: 3px;
+
+        input {
+            border: none;
+            outline: none;
+            background-color: transparent ;
+
+            &::placeholder{
+                font-size: 12px;
+            }
+        }
+    }
+
+    .items{
+        display: flex;
+        align-items: center;
+
+        .item{
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+
+            &:last-child{
+                margin-right: 0;
+            }
+
+            .icon{
+                font-size: 20px;
+                color: #28539C;
+            }
+        }
+    }
+}
