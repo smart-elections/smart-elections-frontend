@@ -27,7 +27,7 @@ const Sidebar = () => {
       </div>
       <hr />
       <div className='center'>
-        <ul>
+        <ul className='centerUnorderedList'>
           <p className='title'>MAIN</p>
           <NavLink
             to='/'
