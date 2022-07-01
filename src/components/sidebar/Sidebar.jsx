@@ -7,12 +7,17 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/images/Logo.png';
+import { ImportContacts, ImportContactsOutlined, ImportContactsRounded } from '@mui/icons-material';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     console.log('logout');
     navigate('/login');
+  };
+  const handlePageNotFound = () => {
+    console.log('404 Page not found');
+    navigate('/404');
   };
   return (
     <div className='sidebar'>
@@ -92,6 +97,11 @@ const Sidebar = () => {
           <li onClick={handleLogout}>
             <ExitToAppOutlinedIcon className='icon' />
             <span>Logout</span>
+          </li>
+
+          <li onClick={handlePageNotFound}>
+            <ImportContactsOutlined className='icon' />
+            <span>Not Found</span>
           </li>
         </ul>
       </div>
