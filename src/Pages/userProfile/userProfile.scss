@@ -1,0 +1,41 @@
+.userProfileBlock {
+    margin-top: 3px;
+    margin-left: 13px;
+
+    .mainTitle {
+        font-weight: 700;
+        font-size: 22px;
+    }
+
+    .infoBlock {
+        margin-top: 22px;
+
+        .info {
+            font-weight: 300;
+            font-size: 17px;
+            text-transform: capitalize;
+            margin-top: 5px;
+        }
+
+        .info-caps {
+            font-weight: 300;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+    }
+
+    .subTitle {
+        font-weight: 600;
+        font-size: 17px;
+        margin-top: 15px;
+    }
+
+    .horizontal {
+        display: inline-block;
+
+        .rightHorizontal {
+            margin-left: 140px;
+        }
+    }
+
+}

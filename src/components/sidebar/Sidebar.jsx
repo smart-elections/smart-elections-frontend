@@ -10,10 +10,13 @@ import Logo from '../../assets/images/Logo.png';
 
 const Sidebar = () => {
   const navigate = useNavigate();
+
   const handleLogout = () => {
+    // TODO: Logout functionality
     console.log('logout');
     navigate('/login');
   };
+
   return (
     <div className='sidebar'>
       <div className='top'>
