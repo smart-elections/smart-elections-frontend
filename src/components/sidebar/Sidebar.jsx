@@ -7,15 +7,44 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/images/Logo.png';
+import { useState } from 'react';
+
+// Logout modal
+import CustomModal from '../../components/modal/CustomModal';
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // TODO: Logout functionality
-    console.log('logout');
-    navigate('/login');
+  // Logout modal state and functions
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // Logout modal buttons components
+  const ActionButton = ({ handleClose }) => {
+    const handleLogout = () => {
+      // TODO: Logout functionality
+      console.log('logout');
+      handleClose(); // close modal
+      navigate('/login');
+    };
+    return (
+      <button autoFocus onClick={handleLogout} className='actionButton'>
+        Logout
+      </button>
+    );
+  };
+
+  const CancelButton = ({ handleClose }) => (
+    <button autoFocus onClick={handleClose} className='cancelButton'>
+      Cancel
+    </button>
+  );
 
   return (
     <div className='sidebar'>
@@ -92,10 +121,18 @@ const Sidebar = () => {
             </li>
           </NavLink>
 
-          <li onClick={handleLogout}>
+          <li onClick={handleClickOpen}>
             <ExitToAppOutlinedIcon className='icon' />
             <span>Logout</span>
           </li>
+          <CustomModal
+            title='Logout'
+            contentMessage='Are you sure you want to logout?'
+            open={open}
+            handleClose={handleClose}
+            ActionButton={ActionButton}
+            CancelButton={CancelButton}
+          />
         </ul>
       </div>
     </div>
