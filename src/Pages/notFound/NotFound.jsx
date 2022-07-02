@@ -5,11 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const NotFound = () => {
   const navigate = useNavigate();
 
-  const HandleGoBackwards = () => {
-    console.log('Back to previous page');
-    navigate('/');
-  };
-
   const HandleGoBackHome = () => {
     console.log('Back to Home Page');
     navigate('/');
