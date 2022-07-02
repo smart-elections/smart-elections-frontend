@@ -4,7 +4,7 @@ const FormInput = ({ onChange, errorMessage, ...inputProps }) => {
   return (
     <div className='formInput'>
       <input {...inputProps} onChange={onChange} autoComplete='off' />
-      <span>{errorMessage && errorMessage}</span>
+      <span className='err'>{errorMessage && errorMessage}</span>
     </div>
   );
 };
