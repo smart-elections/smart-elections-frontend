@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Smart Elections",
+  "name": "Smart French Elections",
+  "description": "A deeply researched and dedicated Blockchain-based solution that solves various problems faced in today’s electoral systems. Such initiative would vastly benefit communities, making elections decentralized with a high level of transparency and transparency in the process.",
   "icons": [
     {
       "src": "favicon.ico",
