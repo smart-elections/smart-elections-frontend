@@ -1,0 +1,67 @@
+.candidate__card {
+    margin-left: 25px;
+    margin-right: 25px;
+
+    .candidate__card__header {
+        color: white;
+        margin-top: 25px;
+        height: 200px;
+        width: 155px;
+        padding: 20px;
+        background-color: var(--primary-blue-color);
+        border-radius: 25px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+
+        .candidate__image {
+            margin-bottom: 10px;
+            height: 105px;
+            width: 105px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .candidate__action__button {
+            margin-top: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 17px;
+            width: 70px;
+            height: 35px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            color: black;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    }
+
+    .candidate__card__body {
+        width: 155px;
+        margin-top: 7px;
+        padding-left: 7px;
+        padding-right: 7px;
+        text-align: left;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        text-transform: capitalize;
+
+
+        .candidate__card__body__name {
+            font-size: 15px;
+        }
+
+        .candidate__card__body__party {
+            font-size: 11px;
+            color: var(--primary-blue-color);
+            font-style: italic;
+        }
+    }
+}
