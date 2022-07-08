@@ -23,7 +23,10 @@ import { addMetaMaskWalletFormValidation } from '../../utils/formValidations';
 import '../modal/customModal.scss';
 
 const MetaMaskWallet = ({ open, handleClose }) => {
-  const [formValues, setFormValues] = useState({ ssn: '', wallet: '' });
+  const [formValues, setFormValues] = useState({
+    citizen_ssn: '',
+    wallet_address: '',
+  });
   const [formErrors, setFormErrors] = useState({});
 
   const navigate = useNavigate();
@@ -54,7 +57,7 @@ const MetaMaskWallet = ({ open, handleClose }) => {
               'SmartElectionsProfile',
               JSON.stringify({
                 ...JSON.parse(userProfile),
-                wallet: formValues.wallet,
+                wallet_address: formValues.wallet_address,
               })
             );
 

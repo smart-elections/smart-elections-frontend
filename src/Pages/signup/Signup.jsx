@@ -20,9 +20,9 @@ import MetaMaskWallet from '../../components/metaMaskWallet/MetaMaskWallet';
 import { signUpFormValidation } from '../../utils/formValidations';
 
 const initialState = {
-  ssn: '',
-  firstName: '',
-  lastName: '',
+  citizen_ssn: '',
+  citizen_firstname: '',
+  citizen_lastname: '',
   username: '',
   password: '',
 };
@@ -49,9 +49,10 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(formValues);
+
     const noErrors = Object.values(formErrors).every((err) => err === '');
     if (noErrors) {
-      // TODO: test out the axios call
       // calling the backend api 'signup' to sign up the user
       await axios
         .put('/accounts/signup', formValues)
@@ -69,6 +70,8 @@ const Signup = () => {
 
             // when registration is successful, open the metamask modal to add the metamask wallet then after that navigate to the elections page
             handleOpenMetaMaskFormModal();
+          } else {
+            toast.error(response.data.message);
           }
         })
         .catch((error) => {

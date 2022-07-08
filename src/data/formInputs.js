@@ -1,21 +1,21 @@
 export const signUpInputs = [
   {
     id: 1,
-    name: 'ssn',
+    name: 'citizen_ssn',
     type: 'text',
     placeholder: 'Social Security Number',
     required: true,
   },
   {
     id: 2,
-    name: 'firstName',
+    name: 'citizen_firstname',
     type: 'text',
     placeholder: 'First Name',
     required: true,
   },
   {
     id: 3,
-    name: 'lastName',
+    name: 'citizen_lastname',
     type: 'text',
     placeholder: 'Last Name',
     required: true,
@@ -39,16 +39,33 @@ export const signUpInputs = [
 export const addMetaMaskAddressInputs = [
   {
     id: 1,
-    name: 'ssn',
+    name: 'citizen_ssn',
     type: 'text',
     placeholder: 'Social Security Number',
     required: true,
   },
   {
     id: 2,
-    name: 'wallet',
+    name: 'wallet_address',
     type: 'text',
     placeholder: 'MetaMask Wallet Address',
+    required: true,
+  },
+];
+
+export const loginInputs = [
+  {
+    id: 1,
+    name: 'citizen_ssn',
+    type: 'text',
+    placeholder: 'Social Security Number',
+    required: true,
+  },
+  {
+    id: 2,
+    name: 'password',
+    type: 'password',
+    placeholder: 'Password',
     required: true,
   },
 ];

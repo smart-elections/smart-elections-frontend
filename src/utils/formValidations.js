@@ -3,7 +3,7 @@ export const signUpFormValidation = (setFormErrors, name, value) => {
     const errorStateObj = { ...prev, [name]: '' };
 
     switch (name) {
-      case 'ssn':
+      case 'citizen_ssn':
         if (!(value.length === 15)) {
           errorStateObj[name] =
             'Social Security Number must be of 15 characters';
@@ -30,14 +30,14 @@ export const addMetaMaskWalletFormValidation = (setFormErrors, name, value) => {
     const errorStateObj = { ...prev, [name]: '' };
 
     switch (name) {
-      case 'ssn':
+      case 'citizen_ssn':
         if (!(value.length === 15)) {
           errorStateObj[name] =
             'Social Security Number must be of 15 characters';
         }
         break;
 
-      case 'wallet':
+      case 'wallet_address':
         if (!(value.length === 42)) {
           errorStateObj[name] = 'Invalid MetaMask Wallet Address';
         }
@@ -48,6 +48,31 @@ export const addMetaMaskWalletFormValidation = (setFormErrors, name, value) => {
     }
 
     return errorStateObj;
+  });
+};
+
+export const loginFormValidation = (setFormErrors, name, value) => {
+  setFormErrors((prev) => {
+    const stateObj = { ...prev, [name]: '' };
+
+    switch (name) {
+      case 'citizen_ssn':
+        if (!(value.length === 15)) {
+          stateObj[name] = 'Social Security Number must be of 15 characters';
+        }
+        break;
+
+      case 'password':
+        if (value.length < 12) {
+          stateObj[name] = 'Password must consist of at least 12 characters.';
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    return stateObj;
   });
 };
 
