@@ -6,7 +6,7 @@ function CandidateCard(props) {
         <div className="candidate__card">
             <div className="candidate__card__header">
                 <img className="candidate__image" src={props.imageUrl} alt="candidate-image" />
-                <button className='candidate__action__button'>{props.viewOrVote}</button>
+                <button className='candidate__action__button' onClick={props.buttonAction}>View</button>
             </div>
             <div className="candidate__card__body">
                 <div className="candidate__card__body__name">
