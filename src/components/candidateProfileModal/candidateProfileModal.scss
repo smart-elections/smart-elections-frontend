@@ -1,0 +1,59 @@
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  max-width: 700px !important;
+}
+
+.MuiDialogContent-root {
+  @media screen and (max-width: 550px) {
+    width: fit-content !important;
+  }
+}
+
+.candidate-profile-modal__content-container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.candidate-profile-modal__image-container {
+  height: 180px;
+  width: 180px;
+  background-color: #28539c;
+  padding: 10px 10px;
+  border-radius: 25px;
+  margin-right: 10px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.candidate-profile-modal__details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  margin-left: 25px;
+  margin-top: 10px;
+  font-size: 22px;
+
+  span {
+    font-size: 22px;
+    font-weight: 500;
+    color: #2b6fc1;
+  }
+}
+
+.candidate-profile-modal__biography-container {
+  text-align: left;
+  color: #858484;
+
+  span {
+    font-size: 22px;
+    font-weight: 500;
+    color: #2b6fc1;
+  }
+
+  .biography-text {
+    font-style: italic;
+  }
+}
