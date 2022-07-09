@@ -4,6 +4,9 @@ import './app.scss';
 import './Styles/dark.scss';
 import './Styles/colors.scss';
 import { DarkModeContext } from './context/darkModeContext';
+import 'react-toastify/dist/ReactToastify.css';
+
+// Pages
 import Login from './Pages/login/Login';
 import Signup from './Pages/signup/Signup';
 import Analysis from './Pages/analysis/Analysis';
