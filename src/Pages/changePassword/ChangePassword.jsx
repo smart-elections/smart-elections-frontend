@@ -1,7 +1,19 @@
 import { useState } from 'react';
-import './changePassword.scss';
+
+// Assets
 import Logo from '../../assets/images/Logo.png';
+
+// Data
+import { changePasswordInputs } from '../../data/formInputs';
+
+// Components
 import FormInput from '../../components/formInput/FormInput';
+
+// Utils
+import { changePasswordFormValidation } from '../../utils/formValidations';
+
+// Styles
+import './changePassword.scss';
 
 const initialState = {
   oldPassword: '',
@@ -13,33 +25,6 @@ const ChangePassword = () => {
   const [formValues, setFormValues] = useState(initialState);
 
   const [formErrors, setFormErrors] = useState({});
-
-  const inputs = [
-    {
-      id: 1,
-      name: 'oldPassword',
-      type: 'password',
-      placeholder: 'Old Password',
-      required: true,
-      errorMessage: '',
-    },
-    {
-      id: 2,
-      name: 'newPassword',
-      type: 'password',
-      placeholder: 'New Password',
-      required: true,
-      errorMessage: '',
-    },
-    {
-      id: 3,
-      name: 'confirmNewPassword',
-      type: 'password',
-      placeholder: 'Confirm New Password',
-      required: true,
-      errorMessage: '',
-    },
-  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,43 +39,7 @@ const ChangePassword = () => {
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    validateInput(name, value);
-  };
-
-  // ✅ Validate input
-  // TODO: Add more validation rules
-  const validateInput = (name, value) => {
-    setFormErrors((prev) => {
-      const stateObj = { ...prev, [name]: '' };
-
-      switch (name) {
-        case 'oldPassword':
-          if (value.length < 6) {
-            stateObj[name] = 'Password must be at least 6 characters';
-          }
-          break;
-
-        case 'newPassword':
-          if (
-            formValues.confirmNewPassword &&
-            value !== formValues.confirmNewPassword
-          ) {
-            stateObj[name] = 'Password and Confirm Password does not match.';
-          }
-          break;
-
-        case 'confirmNewPassword':
-          if (formValues.newPassword && value !== formValues.newPassword) {
-            stateObj[name] = 'Password and Confirm Password does not match.';
-          }
-          break;
-
-        default:
-          break;
-      }
-
-      return stateObj;
-    });
+    changePasswordFormValidation(setFormErrors, formValues, name, value);
   };
 
   return (
@@ -104,7 +53,7 @@ const ChangePassword = () => {
         />
       </div>
       <form className='Auth-form' onSubmit={handleSubmit}>
-        {inputs.map((input) => (
+        {changePasswordInputs.map((input) => (
           <FormInput
             key={input.id}
             {...input}
