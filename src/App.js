@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
+// Styles
 import './app.scss';
 import './Styles/dark.scss';
 import './Styles/colors.scss';
+import 'react-toastify/dist/ReactToastify.css';
 import { DarkModeContext } from './context/darkModeContext';
+
+// Pages
 import Login from './Pages/login/Login';
 import Signup from './Pages/signup/Signup';
 import Analysis from './Pages/analysis/Analysis';
@@ -41,6 +47,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className={darkMode ? 'app dark' : 'app'}>
+        <ToastContainer />
         <Sidebar />
         <div className='appContainer'>
           <Navbar />
