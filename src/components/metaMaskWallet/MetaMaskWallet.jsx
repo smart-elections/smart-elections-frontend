@@ -42,25 +42,31 @@ const MetaMaskWallet = ({ open, handleClose }) => {
       // TODO: test out the axios call
       // calling the backend api 'addWallet' to add the metamask wallet
       await axios
-        .put('/accounts/add/wallet', formValues)
+        .put('accounts/add/wallet', formValues)
         .then((response) => {
           console.log(response);
           console.log(response.data);
-          toast.success('Wallet added successfully!');
 
-          // TODO: Add the user wallet to local storage
-          // const userProfile = localStorage.getItem('SmartElectionsProfile');
-          // localStorage.setItem(
-          //   'SmartElectionsProfile',
-          //   JSON.stringify({
-          //     ...JSON.parse(userProfile),
-          //     wallet: response.data,
-          //   })
-          // );
+          if (response.status === 200) {
+            toast.success(response.data.message);
+            const userProfile = localStorage.getItem('SmartElectionsProfile');
+            localStorage.setItem(
+              'SmartElectionsProfile',
+              JSON.stringify({
+                ...JSON.parse(userProfile),
+                wallet: formValues.wallet,
+              })
+            );
 
-          // when successful, close the modal and navigate to the elections page
-          handleClose();
-          navigate('/elections');
+            // when successful, close the modal and navigate to the elections page
+            handleClose();
+            window.location.reload(false);
+            navigate('/elections');
+          }
+
+          if (response.status === 202) {
+            toast.error(response.data.message);
+          }
         })
         .catch((error) => {
           console.error('MetaMask Wallet: There was an error!', error);

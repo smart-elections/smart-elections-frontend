@@ -42,6 +42,7 @@ const Signup = () => {
     // Do nothing if the user clicks outside the modal
     if (reason && reason === 'backdropClick') return;
     setOpen(false);
+    window.location.reload(false);
     navigate('/elections');
   };
 
@@ -57,16 +58,18 @@ const Signup = () => {
         .then((response) => {
           console.log(response);
           console.log(response.data);
-          toast.success('Account created successfully!');
+          if (response.status === 200) {
+            toast.success(response.data.message);
+            delete formValues.password;
+            // TODO: Add the user to local storage
+            localStorage.setItem(
+              'SmartElectionsProfile',
+              JSON.stringify({ ...formValues, isAuthenticated: true })
+            );
 
-          // TODO: Add the user to local storage
-          // localStorage.setItem(
-          //   'SmartElectionsProfile',
-          //   JSON.stringify(response.data)
-          // );
-
-          // when registration is successful, open the metamask modal to add the metamask wallet then after that navigate to the elections page
-          handleOpenMetaMaskFormModal();
+            // when registration is successful, open the metamask modal to add the metamask wallet then after that navigate to the elections page
+            handleOpenMetaMaskFormModal();
+          }
         })
         .catch((error) => {
           console.error('Sign up form: There was an error!', error);
