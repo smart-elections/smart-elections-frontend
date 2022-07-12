@@ -22,19 +22,35 @@
             text-transform: uppercase;
             margin-top: 5px;
         }
-    }
 
-    .subTitle {
-        font-weight: 600;
-        font-size: 17px;
-        margin-top: 15px;
-    }
+        .subTitle {
+            font-weight: 600;
+            font-size: 17px;
+            margin-top: 15px;
+        }
 
-    .horizontal {
-        display: inline-block;
+        .metamask_alert_button {
+            margin-top: 5px;
+            padding: 8px;
+            background-color: var(--primary-blue-color);
+            border-radius: 7px;
+            border: none;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-        .rightHorizontal {
-            margin-left: 140px;
+        .horizontal {
+            display: inline-block;
+
+            .rightHorizontal {
+                margin-left: 100px;
+            }
+
+            .metamask_alert_msg {
+                font-style: italic;
+            }
         }
     }
 
