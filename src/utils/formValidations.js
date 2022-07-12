@@ -4,9 +4,9 @@ export const signUpFormValidation = (setFormErrors, name, value) => {
 
     switch (name) {
       case 'ssn':
-        if (!(value.length === 13)) {
+        if (!(value.length === 15)) {
           errorStateObj[name] =
-            'Social Security Number must be of 13 characters';
+            'Social Security Number must be of 15 characters';
         }
         break;
 
@@ -31,9 +31,9 @@ export const addMetaMaskWalletFormValidation = (setFormErrors, name, value) => {
 
     switch (name) {
       case 'ssn':
-        if (!(value.length === 13)) {
+        if (!(value.length === 15)) {
           errorStateObj[name] =
-            'Social Security Number must be of 13 characters';
+            'Social Security Number must be of 15 characters';
         }
         break;
 
