@@ -55,15 +55,6 @@ const App = () => {
 
                 <Route path='register' element={<Signup />} />
 
-                {/* 
-          OTP verification
-          <Route path='verify-otp' element={<VerifyOTP />} />
-
-          MetaMask wallet
-          <Route path='metamask-wallet' element={<Wallet />} />
-          
-          */}
-
                 <Route path='elections'>
                   <Route index element={<Elections />} />
                   <Route
