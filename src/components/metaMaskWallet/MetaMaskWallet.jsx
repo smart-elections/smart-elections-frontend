@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
@@ -29,8 +28,6 @@ const MetaMaskWallet = ({ open, handleClose }) => {
   });
   const [formErrors, setFormErrors] = useState({});
 
-  const navigate = useNavigate();
-
   const onInputChange = (e) => {
     let { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -51,20 +48,10 @@ const MetaMaskWallet = ({ open, handleClose }) => {
           console.log(response.data);
 
           if (response.status === 200) {
-            toast.success(response.data.message);
-            const userProfile = localStorage.getItem('SmartElectionsProfile');
-            localStorage.setItem(
-              'SmartElectionsProfile',
-              JSON.stringify({
-                ...JSON.parse(userProfile),
-                wallet_address: formValues.wallet_address,
-              })
-            );
+            toast.success('MetaMask wallet address registered!');
 
             // when successful, close the modal and navigate to the elections page
             handleClose();
-            window.location.reload(false);
-            navigate('/elections');
           }
 
           if (response.status === 202) {

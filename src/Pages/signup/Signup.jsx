@@ -42,8 +42,7 @@ const Signup = () => {
     // Do nothing if the user clicks outside the modal
     if (reason && reason === 'backdropClick') return;
     setOpen(false);
-    window.location.reload(false);
-    navigate('/elections');
+    navigate('/login');
   };
 
   const handleSubmit = async (e) => {
@@ -61,12 +60,6 @@ const Signup = () => {
           console.log(response.data);
           if (response.status === 200) {
             toast.success(response.data.message);
-            delete formValues.password;
-            // TODO: Add the user to local storage
-            localStorage.setItem(
-              'SmartElectionsProfile',
-              JSON.stringify({ ...formValues, isAuthenticated: true })
-            );
 
             // when registration is successful, open the metamask modal to add the metamask wallet then after that navigate to the elections page
             handleOpenMetaMaskFormModal();
