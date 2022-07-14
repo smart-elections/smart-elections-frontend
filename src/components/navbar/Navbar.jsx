@@ -1,14 +1,16 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import './navbar.scss';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { DarkModeContext } from '../../context/darkModeContext';
+
+// State Context
+import useAppStateContext from '../../hooks/useAppStateContext';
 
 const Navbar = () => {
   const [theme, setTheme] = useState('');
-  const { dispatch } = useContext(DarkModeContext);
+  const { dispatch } = useAppStateContext();
 
   useEffect(() => {
     const localTheme = window.localStorage.getItem('smartVotingTheme');
@@ -38,13 +40,13 @@ const Navbar = () => {
           </div>
           <div className='item'>
             {theme === 'DARK' ? (
-              <DarkModeOutlinedIcon
+              <LightModeIcon
                 className='icon'
                 style={{ cursor: 'pointer' }}
                 onClick={handleThemeChange}
               />
             ) : (
-              <LightModeIcon
+              <DarkModeOutlinedIcon
                 className='icon'
                 style={{ cursor: 'pointer' }}
                 onClick={handleThemeChange}
