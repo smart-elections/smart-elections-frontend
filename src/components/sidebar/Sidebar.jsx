@@ -5,15 +5,18 @@ import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import Logo from '../../assets/images/Logo.png';
 import { useState } from 'react';
+
+// State Context
+import useAppStateContext from '../../hooks/useAppStateContext';
 
 // Logout modal
 import CustomModal from '../../components/modal/CustomModal';
 
 const Sidebar = () => {
-  const navigate = useNavigate();
+  const { dispatch } = useAppStateContext();
 
   // Logout modal state and functions
   const [open, setOpen] = useState(false);
@@ -28,10 +31,8 @@ const Sidebar = () => {
   // Logout modal buttons components
   const ActionButton = ({ handleClose }) => {
     const handleLogout = () => {
-      // TODO: Logout functionality
-      console.log('logout');
+      dispatch({ type: 'Logout' });
       handleClose(); // close modal
-      navigate('/login');
     };
     return (
       <button autoFocus onClick={handleLogout} className='actionButton'>
