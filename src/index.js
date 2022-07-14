@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { DarkModeContextProvider } from './context/darkModeContext';
+import { AppStateProvider } from './context/appStateProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <DarkModeContextProvider>
-        <App />
-      </DarkModeContextProvider>
+    <AppStateProvider>
+      <App />
+    </AppStateProvider>
   </React.StrictMode>
 );
