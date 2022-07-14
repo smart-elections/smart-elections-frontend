@@ -7,6 +7,9 @@ import './login.scss';
 import Logo from '../../assets/images/Logo.png';
 import FormInput from '../../components/formInput/FormInput';
 
+// State Context
+import useAppStateContext from '../../hooks/useAppStateContext';
+
 import { loginInputs } from '../../data/formInputs';
 import { loginFormValidation } from '../../utils/formValidations';
 
@@ -18,6 +21,7 @@ const initialState = {
 const Login = () => {
   const [formValues, setFormValues] = useState(initialState);
   const [formErrors, setFormErrors] = useState({});
+  const { dispatch } = useAppStateContext();
 
   const navigate = useNavigate();
 
@@ -29,8 +33,6 @@ const Login = () => {
       // TODO: API call to login
       // calling the backend api 'login' to login the user
 
-      console.log(formValues);
-
       await axios
         .post('/accounts/login', formValues)
         .then((response) => {
@@ -40,11 +42,10 @@ const Login = () => {
           if (response.status === 200) {
             toast.success("You're logged in!");
 
-            // Add the user to local storage
-            localStorage.setItem(
-              'SmartElectionsProfile',
-              JSON.stringify({ ...response.data.data, isAuthenticated: true })
-            );
+            dispatch({
+              type: 'Login',
+              payload: response.data.data,
+            });
 
             navigate('/elections');
           } else {
