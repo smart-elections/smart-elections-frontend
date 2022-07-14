@@ -1,25 +1,26 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { useLocation, Navigate, Outlet } from 'react-router-dom';
+import useAppStateContext from '../hooks/useAppStateContext';
 
 // TODO: CHECK WHETHER THE USER IS AUTHENTICATED OR NOT
-// either use localStorage or use redux
-// let isAuthenticated = false;
 
-// if (localStorage.getItem('SmartElectionsProfile')) {
-//   const userProfile = localStorage.getItem('SmartElectionsProfile');
-//   if (JSON.parse(userProfile).isAuthenticated) {
-//     isAuthenticated = true;
-//   }
-// }
+export const PrivateRoute = () => {
+  const { appState } = useAppStateContext();
 
-export const PrivateRoute = ({ isAuthenticated }) => {
-  // If authorized, return an outlet that will render child elements
-  // If not, return element that will navigate to login page
-  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />;
+  return appState?.isAuthenticated && appState?.user ? (
+    <Outlet />
+  ) : (
+    <Navigate to='/login' />
+  );
 };
 
-export const PublicRoute = ({ isAuthenticated }) => {
-  // If authorized, return an outlet that will render child elements
-  // If not, return element that will navigate to login page
-  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />;
+export const PublicRoute = () => {
+  const { appState } = useAppStateContext();
+  // If not authorized, return an outlet that will render child elements
+  // If not, return element that will navigate to home page
+  return !appState?.isAuthenticated && !appState?.user ? (
+    <Outlet />
+  ) : (
+    <Navigate to='/' />
+  );
 };
