@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
@@ -7,7 +7,9 @@ import './app.scss';
 import './Styles/dark.scss';
 import './Styles/colors.scss';
 import 'react-toastify/dist/ReactToastify.css';
-import { DarkModeContext } from './context/darkModeContext';
+
+// State Context
+import useAppStateContext from './hooks/useAppStateContext';
 
 // Routes
 import { PrivateRoute, PublicRoute } from './Routes/Routes';
@@ -29,32 +31,30 @@ import Sidebar from './components/sidebar/Sidebar';
 import Navbar from './components/navbar/Navbar';
 
 const App = () => {
-  const { darkMode, dispatch } = useContext(DarkModeContext);
+  const { appState, dispatch } = useAppStateContext();
+  console.log('App State:\n', appState);
+
   const [componentMounted, setComponentMounted] = useState(false);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    JSON.parse(localStorage.getItem('SmartElectionsProfile'))
-      ?.isAuthenticated || false
-  );
+  if (JSON.parse(localStorage.getItem('SmartElectionsProfile')) === null) {
+    window.localStorage.setItem(
+      'SmartElectionsProfile',
+      JSON.stringify({ isAuthenticated: false })
+    );
+  }
 
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem('SmartElectionsProfile')) === null) {
-      window.localStorage.setItem(
-        'SmartElectionsProfile',
-        JSON.stringify({ isAuthenticated: false })
-      );
-    }
-
     const userProfile = JSON.parse(
       window.localStorage.getItem('SmartElectionsProfile')
     );
 
     if (userProfile !== null) {
       if (userProfile.isAuthenticated) {
-        setIsAuthenticated(true);
+        delete userProfile.isAuthenticated;
+        dispatch({ type: 'Login', payload: userProfile });
       }
     }
-  }, [isAuthenticated]);
+  }, [dispatch]);
 
   useEffect(() => {
     const localTheme = window.localStorage.getItem('smartVotingTheme');
@@ -73,36 +73,28 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className={darkMode ? 'app dark' : 'app'}>
+      <div className={appState?.isDarkMode ? 'app dark' : 'app'}>
         <ToastContainer />
-        {isAuthenticated && <Sidebar />}
+        {appState?.isAuthenticated && <Sidebar />}
         <div className='appContainer'>
-          {isAuthenticated && <Navbar />}
+          {appState?.isAuthenticated && <Navbar />}
           <div className='routesWrapper'>
             <Routes>
               <Route path='/'>
-                <Route
-                  element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-                >
+                <Route element={<PrivateRoute />}>
                   <Route index element={<Analysis />} />
                 </Route>
 
-                <Route
-                  element={<PublicRoute isAuthenticated={isAuthenticated} />}
-                >
+                <Route element={<PublicRoute />}>
                   <Route path='login' element={<Login />} />
                 </Route>
 
-                <Route
-                  element={<PublicRoute isAuthenticated={isAuthenticated} />}
-                >
+                <Route element={<PublicRoute />}>
                   <Route path='register' element={<Signup />} />
                 </Route>
 
                 <Route path='elections'>
-                  <Route
-                    element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-                  >
+                  <Route element={<PrivateRoute />}>
                     <Route index element={<Elections />} />
                     <Route
                       path='voting/:year/:electionId'
@@ -116,29 +108,21 @@ const App = () => {
                 </Route>
 
                 <Route path='candidates'>
-                  <Route
-                    element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-                  >
+                  <Route element={<PrivateRoute />}>
                     <Route index element={<Candidates />} />
                     <Route path=':candidateId' element={<SingleCandidate />} />
                   </Route>
                 </Route>
 
-                <Route
-                  element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-                >
+                <Route element={<PrivateRoute />}>
                   <Route path='profile' element={<UserProfile />} />
                 </Route>
 
-                <Route
-                  element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-                >
+                <Route element={<PrivateRoute />}>
                   <Route exact path='news' element={<News />} />
                 </Route>
 
-                <Route
-                  element={<PrivateRoute isAuthenticated={isAuthenticated} />}
-                >
+                <Route element={<PrivateRoute />}>
                   <Route
                     path='accounts/password/change'
                     element={<ChangePassword />}
