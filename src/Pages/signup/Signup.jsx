@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import axios from 'axios';
 
 // Styles
 import './signup.scss';
@@ -18,6 +16,9 @@ import MetaMaskWallet from '../../components/metaMaskWallet/MetaMaskWallet';
 
 // utils
 import { signUpFormValidation } from '../../utils/formValidations';
+
+// register function
+import { register } from '../../services/accounts.services';
 
 const initialState = {
   citizen_ssn: '',
@@ -52,24 +53,8 @@ const Signup = () => {
 
     const noErrors = Object.values(formErrors).every((err) => err === '');
     if (noErrors) {
-      // calling the backend api 'signup' to sign up the user
-      await axios
-        .put('/accounts/signup', formValues)
-        .then((response) => {
-          console.log(response);
-          console.log(response.data);
-          if (response.status === 200) {
-            toast.success(response.data.message);
-
-            // when registration is successful, open the metamask modal to add the metamask wallet then after that navigate to the elections page
-            handleOpenMetaMaskFormModal();
-          } else {
-            toast.error(response.data.message);
-          }
-        })
-        .catch((error) => {
-          console.error('Sign up form: There was an error!', error);
-        });
+      // calling the backend api 'signup' to register the user
+      register(formValues, handleOpenMetaMaskFormModal);
     }
   };
 
