@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import axios from 'axios';
 
 // Material UI
 import DialogTitle from '@mui/material/DialogTitle';
