@@ -21,6 +21,9 @@ import { addMetaMaskWalletFormValidation } from '../../utils/formValidations';
 // styles
 import '../modal/customModal.scss';
 
+// addMetaMaskWallet function
+import { addMetaMaskWallet } from '../../services/accounts.services';
+
 const MetaMaskWallet = ({ open, handleClose }) => {
   const [formValues, setFormValues] = useState({
     citizen_ssn: '',
@@ -39,28 +42,8 @@ const MetaMaskWallet = ({ open, handleClose }) => {
 
     const noErrors = Object.values(formErrors).every((err) => err === '');
     if (noErrors) {
-      // TODO: test out the axios call
       // calling the backend api 'addWallet' to add the metamask wallet
-      await axios
-        .put('accounts/add/wallet', formValues)
-        .then((response) => {
-          console.log(response);
-          console.log(response.data);
-
-          if (response.status === 200) {
-            toast.success('MetaMask wallet address registered!');
-
-            // when successful, close the modal and navigate to the elections page
-            handleClose();
-          }
-
-          if (response.status === 202) {
-            toast.error(response.data.message);
-          }
-        })
-        .catch((error) => {
-          console.error('MetaMask Wallet: There was an error!', error);
-        });
+      addMetaMaskWallet(formValues, handleClose);
     }
   };
 

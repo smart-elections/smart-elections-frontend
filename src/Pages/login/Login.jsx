@@ -13,6 +13,9 @@ import useAppStateContext from '../../hooks/useAppStateContext';
 import { loginInputs } from '../../data/formInputs';
 import { loginFormValidation } from '../../utils/formValidations';
 
+// login function
+import { login } from '../../services/accounts.services';
+
 const initialState = {
   citizen_ssn: '',
   password: '',
@@ -30,31 +33,8 @@ const Login = () => {
 
     const noErrors = Object.values(formErrors).every((err) => err === '');
     if (noErrors) {
-      // TODO: API call to login
       // calling the backend api 'login' to login the user
-
-      await axios
-        .post('/accounts/login', formValues)
-        .then((response) => {
-          console.log(response);
-          console.log(response.data.data);
-
-          if (response.status === 200) {
-            toast.success("You're logged in!");
-
-            dispatch({
-              type: 'Login',
-              payload: response.data.data,
-            });
-
-            navigate('/elections');
-          } else {
-            toast.error(response.data.message);
-          }
-        })
-        .catch((error) => {
-          console.error('Login form: There was an error!', error);
-        });
+      login(formValues, dispatch, navigate);
     }
   };
 
