@@ -24,6 +24,24 @@ const AppStateReducer = (state, action) => {
       };
     }
 
+    case 'AddMetaMaskWallet': {
+      let SmartElectionsProfile = JSON.parse(
+        localStorage.getItem('SmartElectionsProfile')
+      );
+      localStorage.setItem(
+        'SmartElectionsProfile',
+        JSON.stringify({
+          ...SmartElectionsProfile,
+          wallet_address: action.payload.wallet_address,
+        })
+      );
+
+      return {
+        ...state,
+        user: { ...state.user, wallet_address: action.payload.wallet_address },
+      };
+    }
+
     case 'UpdateProfile': {
       return {
         ...state,

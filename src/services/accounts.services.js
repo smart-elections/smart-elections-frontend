@@ -46,7 +46,7 @@ export const register = async (formValues, handleOpenMetaMaskFormModal) => {
     });
 };
 
-export const addMetaMaskWallet = async (formValues, handleClose) => {
+export const addMetaMaskWallet = async (formValues, handleClose, dispatch) => {
   await axios
     .put('accounts/add/wallet', formValues)
     .then((response) => {
@@ -56,6 +56,13 @@ export const addMetaMaskWallet = async (formValues, handleClose) => {
       if (response.status === 200) {
         toast.success('MetaMask wallet address registered!');
 
+        if (dispatch) {
+          console.log('dispatching');
+          dispatch({
+            type: 'AddMetaMaskWallet',
+            payload: { wallet_address: formValues.wallet_address },
+          });
+        }
         // when successful, close the modal and navigate to the elections page
         handleClose();
       } else {
