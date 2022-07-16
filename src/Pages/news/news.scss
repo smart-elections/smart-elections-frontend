@@ -62,9 +62,10 @@
     .news__text {
       margin-left: 10px;
 
-      .news__category {
+      .news__source {
         font-size: 1.1rem;
         padding-bottom: 4px;
+        text-transform: capitalize;
       }
 
       .news__title {
