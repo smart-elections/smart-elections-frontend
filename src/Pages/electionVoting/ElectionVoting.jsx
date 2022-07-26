@@ -2,70 +2,61 @@ import { useState, useEffect } from 'react';
 import './electionVoting.scss';
 import { toast } from 'react-toastify';
 import { ethers } from 'ethers';
+import { useParams } from 'react-router-dom';
 
 import { smartElectionsContractAddress } from '../../config.js';
 import smartElectionsApplicationContract from '../../services/smartElectionsApplicationContract.json';
 
+import useAppStateContext from '../../hooks/useAppStateContext';
+
+import {
+  getElectionCandidates,
+  connectWallet,
+} from '../../services/elections.service';
+import CandidateCard from '../../components/candidateComponent/candidateCard.jsx';
+
 const ElectionVoting = () => {
-  const [error, setError] = useState(null);
   const [currentAccount, setCurrentAccount] = useState('');
   const [correctNetwork, setCorrectNetwork] = useState(false);
+  const [electionCandidates, setElectionCandidates] = useState([]);
 
-  // Calls Metamask to connect wallet on clicking Connect Wallet button
-  const connectWallet = async () => {
-    try {
-      const { ethereum } = window;
+  const {
+    appState: { user },
+  } = useAppStateContext();
 
-      if (!ethereum) {
-        toast.error('Metamask not detected');
-        return;
-      }
+  console.log('user', user);
 
-      checkCorrectNetwork();
-
-      if (correctNetwork) {
-        const accounts = await ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-
-        setCurrentAccount(accounts[0]);
-      } else {
-        return;
-      }
-    } catch (error) {
-      console.log('Error connecting to metamask', error);
-    }
-  };
-
-  // Checks if wallet is connected to the goerli network
-  const checkCorrectNetwork = async () => {
-    const { ethereum } = window;
-    let chainId = await ethereum.request({ method: 'eth_chainId' });
-
-    const goerliChainId = '0x5';
-
-    if (chainId !== goerliChainId) {
-      toast.error('You are not connected to the Goerli Testnet!');
-      setCorrectNetwork(false);
-    } else {
-      toast.success('You are connected to the Goerli Testnet!');
-      setCorrectNetwork(true);
-    }
-  };
+  const { electionYear, electionRound, electionType } = useParams();
+  console.log(electionYear, electionRound, electionType);
 
   useEffect(() => {
-    connectWallet();
+    connectWallet(setCorrectNetwork, correctNetwork, setCurrentAccount);
     console.log(currentAccount);
-  });
+  }, [correctNetwork, currentAccount]);
 
-  const castVote = async () => {
+  useEffect(() => {
+    const fetchedElections = async () => {
+      const { data } = await getElectionCandidates(
+        electionYear,
+        electionType,
+        electionRound
+      );
+      setElectionCandidates(data);
+      console.log(data);
+    };
+    fetchedElections();
+  }, [electionRound, electionType, electionYear]);
+
+  const castVote = async (candidate_id) => {
+    // username is metamask address
     let vote = {
-      election_year: '',
-      election_type: '',
-      election_round: '',
-      citizen_ssn: '',
-      citizen_nationality: '',
-      candidate_id: '',
+      username: currentAccount,
+      citizen_ssn: user.citizen_ssn,
+      citizen_nationality: user.citizen_nationality,
+      election_year: parseInt(electionYear),
+      election_round: parseInt(electionRound),
+      election_type: parseInt(electionType),
+      candidate_id: candidate_id,
     };
 
     try {
@@ -80,14 +71,16 @@ const ElectionVoting = () => {
           signer
         );
 
-        await smartElectionsContract.createTweet(
-          vote.election_year,
-          vote.election_type,
-          vote.election_round,
+        await smartElectionsContract.addVote(
           vote.citizen_ssn,
           vote.citizen_nationality,
+          vote.election_year,
+          vote.election_round,
+          vote.election_type,
           vote.candidate_id
         );
+
+        toast.success('Your vote has been cast');
       } else {
         console.error("Ethereum object doesn't exist!");
       }
@@ -97,9 +90,8 @@ const ElectionVoting = () => {
     }
   };
 
-  const onVoteSubmitHandler = async (e) => {
-    e.preventDefault();
-    console.log('Submitting');
+  const onVoteHandler = async ({ candidate_id }) => {
+    console.log('Voting for', candidate_id);
     if (
       currentAccount === '' ||
       currentAccount === null ||
@@ -108,16 +100,30 @@ const ElectionVoting = () => {
       toast.warning('Please connect to Metamask');
       connectWallet();
     } else {
-      // check if account is already voted
+      // check if account is already voted (inside registered_voters db table)
       // if not, vote
       // if yes, toast message
-      // toast.success('Your vote has been cast');
-      // TODO: Send transaction to blockchain
-      castVote();
+
+      castVote(candidate_id); // Sending vote transaction to blockchain
     }
   };
 
-  return <div>ElectionVoting</div>;
+  return (
+    <>
+      <div className='candidatesContainer'>
+        {electionCandidates.map((candidate) => (
+          <CandidateCard
+            key={candidate.candidate_id}
+            imageUrl={`https://via.placeholder.com/150?text=${candidate.citizen_firstname}`}
+            buttonAction={onVoteHandler.bind(this, candidate)}
+            name={`${candidate.citizen_firstname} ${candidate.citizen_lastname}`}
+            party={candidate.candidate_party}
+            buttonText={'Vote'}
+          />
+        ))}
+      </div>
+    </>
+  );
 };
 
 export default ElectionVoting;
