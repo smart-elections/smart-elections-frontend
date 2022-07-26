@@ -1,0 +1,136 @@
+.analysis__container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.7rem;
+    padding-bottom: 1.7rem;
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+    height: 88vh;
+
+    .selectInput {
+        .selectBox {
+            display: flex;
+            align-items: center;
+            float: right;
+            padding-right: 30px;
+
+
+            .icon {
+                margin-right: 0.3rem;
+            }
+
+            .select {
+                border: none;
+                font-size: 1.1rem;
+            }
+        }
+    }
+
+    .analysis__component {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        height: 100%;
+
+        &__left {
+            display: flex;
+            flex-wrap: wrap;
+            flex: 1 0 60%;
+            flex-direction: column;
+            height: 100%;
+            padding: 20px;
+
+            // align-items: center;
+
+            .analysis__component__left__upper {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                height: 30%;
+                justify-content: center;
+
+                &--registered {
+                    display: flex;
+                    flex: 1 0 45%;
+                    padding: 10px;
+                }
+
+                &--voters {
+                    display: flex;
+                    flex: 1 0 45%;
+                    padding: 10px;
+                }
+            }
+
+            .analysis__component__left__lower {
+                display: flex;
+                height: 70%;
+                padding: 10px;
+
+                &--graph {
+                    border-radius: 20px;
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                    width: 100%;
+                }
+            }
+        }
+
+        &__right {
+            display: flex;
+            flex-wrap: wrap;
+            display: flex;
+            flex: 1 0 30%;
+            flex-direction: column;
+            width: 50%;
+            padding: 20px;
+
+            &--winner {
+                padding: 10px;
+                width: 100%;
+                height: 60%;
+                display: flex;
+                padding: 10px;
+
+                .winner__card {
+                    width: 100%;
+                    height: 100%;
+                    padding: 20px;
+                    border-radius: 20px;
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+                    &__title {
+                        display: flex;
+                        flex-wrap: wrap;
+                        flex: 1 0 70%;
+                        color: grey;
+                    }
+
+                    &__comparison {
+                        display: flex;
+                        flex-wrap: wrap;
+                        flex: 1 0 20%;
+                        color: green;
+                        float: right;
+                    }
+
+                }
+            }
+
+            &--winnerVotes {
+                padding: 10px;
+                width: 100%;
+                height: 40%;
+                display: flex;
+                padding: 10px;
+
+                .winnerVotes__card {
+                    width: 100%;
+                    height: 100%;
+                    padding: 20px;
+                    border-radius: 20px;
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,40 @@
+.analytics__card {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    &__upper {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 1 0 50%;
+        flex-direction: row;
+
+        &__title {
+            display: flex;
+            flex-wrap: wrap;
+            flex: 1 0 70%;
+            color: grey;
+        }
+
+        &__comparison {
+            display: flex;
+            flex-wrap: wrap;
+            flex: 1 0 20%;
+            color: green;
+            float: right;
+        }
+    }
+
+    &__lower {
+        display: flex;
+
+        .analytics__card__lower__number {
+            color: var(--primary-blue-color);
+        }
+    }
+}
