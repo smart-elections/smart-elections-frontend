@@ -54,6 +54,7 @@ const Candidates = () => {
             buttonAction={openCandidateModal.bind(this, candidate)}
             name={candidate.name}
             party={candidate.party}
+            buttonText='View'
           />
         ))}
       </div>
