@@ -97,7 +97,7 @@ const App = () => {
                   <Route element={<PrivateRoute />}>
                     <Route index element={<Elections />} />
                     <Route
-                      path='voting/:year/:electionId'
+                      path='voting/:electionYear/:electionRound/:electionType'
                       element={<ElectionVoting />}
                     />
                     <Route
