@@ -5,7 +5,7 @@ import axios from 'axios';
 import AnalyticsCard from '../../components/analyticsComponent/AnalyticsCard.jsx';
 import './analysis.scss';
 
-const baseUrl = 'http://ec2-34-207-166-28.compute-1.amazonaws.com:8000';
+const baseUrl = 'http://ec2-44-202-30-87.compute-1.amazonaws.com:8000';
 
 const Analysis = () => {
 
@@ -13,60 +13,59 @@ const Analysis = () => {
 
   const [selectedElection, setSelectedElection] = useState('');
 
-  const [selectedElectionType, setSelectedElectionType] = useState('');
+  const [selectedElectionRegisteredVoters, setSelectedElectionRegisteredVoters] = useState(0);
+  const [selectedElectionRegisteredVotersPercentage, setSelectedElectionRegisteredVotersPercentage] = useState(0);
 
-  const [selectedElectionRound, setSelectedElectionRound] = useState('');
+  const [selectedElectionVoters, setSelectedElectionVoters] = useState(0);
+  const [selectedElectionVotersPercentage, setSelectedElectionVotersPercentage] = useState(0);
 
-  const [selectedElectionYear, setSelectedElectionYear] = useState('');
+  const [selectedElectionWinner, setSelectedElectionWinner] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchElectionsData = async () => {
       const { data: { data } } = await axios(`${baseUrl}/elections`);
       setLatestElections(data);
+      setSelectedElection(`year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`);
 
-      setSelectedElection(`year=${data[0].election_year}&type=${data[0].election_type}&round=${data[0].election_round}`);
-      // api calls
+      console.log('1st', `year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`)
 
-      setSelectedElectionType(data[0].election_type);
-      setSelectedElectionRound(data[0].election_round);
-      setSelectedElectionYear(data[0].election_year);
+      const fetchRegisteredData = async () => {
+        const response1 = await axios(`${baseUrl}/analytics/registered_voters?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`);
+        setSelectedElectionRegisteredVoters(response1.data.registered_voters);
+        setSelectedElectionRegisteredVotersPercentage(response1.data.lastElectionDifference);
 
-      console.log(data)
+        console.log(response1.data);
+      }
+      fetchRegisteredData();
+
+      const fetchVotesData = async () => {
+        const response2 = await axios(`${baseUrl}/analytics/voters?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`);
+        setSelectedElectionVoters(response2.data.voters);
+        setSelectedElectionVotersPercentage(response2.data.lastElectionDifference);
+        console.log(response2.data);
+      }
+      fetchVotesData();
+
     }
-    fetchData();
+    fetchElectionsData();
   }, []);
 
-  const onFilterChange = (e) => {
-    setSelectedElection(e.target.value);
-    setSelectedElectionYear(e.target.value.split('&')[0].split('=')[1]);
-    setSelectedElectionType(e.target.value.split('&')[1].split('=')[1]);
-    setSelectedElectionRound(e.target.value.split('&')[2].split('=')[1]);
-    console.log('e', e.target.value)
+
+  const onElectionChange = async (e) => {
+    console.log(e.target.value);
+
+    let response = await axios(`${baseUrl}/analytics/registered_voters?${e.target.value}`);
+
+    console.log('on election change', response.data);
+
+    setSelectedElectionRegisteredVoters(response.data.registered_voters);
+    setSelectedElectionRegisteredVotersPercentage(response.data.lastElectionDifference);
+
+    let response2 = await axios(`${baseUrl}/analytics/voters?${e.target.value}`);
+
+    setSelectedElectionVoters(response2.data.voters);
+    setSelectedElectionVotersPercentage(response2.data.lastElectionDifference);
   }
-
-  useEffect(() => {
-    console.log(selectedElection);
-    console.log('type', selectedElectionType);
-    console.log('round', selectedElectionRound);
-    console.log('year', selectedElectionYear);
-    // call all apis
-  }, [selectedElection, selectedElectionType, selectedElectionRound, selectedElectionYear]);
-
-
-  // console.log(latestElections);
-
-  // const [electionWinner, setElectionWinner] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     console.log(selectedElections);
-  //     const result = await axios(`${baseUrl}/analytics/election_winner?${selectedElections}`);
-  //     setElectionWinner(result.data.data);
-  //   }
-  //   fetchData();
-  //   console.log(electionWinner);
-  // }
-  //   , [selectedElections]);
 
   return (
     <div className='analysis__container'>
@@ -78,7 +77,7 @@ const Analysis = () => {
             aria-label='Election select'
             id='selectedElection'
             name='selected_election'
-            onChange={onFilterChange}
+            onChange={onElectionChange}
             required
           >
             {latestElections.map((election) => {
@@ -99,14 +98,17 @@ const Analysis = () => {
             <div className='analysis__component__left__upper--registered'>
               <AnalyticsCard
                 title='Number of Registered Voters'
-                currentElectionsYear={selectedElectionYear}
-                electionsType={selectedElectionType}
-                electionsRound={selectedElectionRound}
+                number={selectedElectionRegisteredVoters}
+                percentage={selectedElectionRegisteredVotersPercentage}
+                color='white'
               />
             </div>
             <div className='analysis__component__left__upper--voters'>
               <AnalyticsCard
                 title='Number of Voters'
+                number={selectedElectionVoters}
+                percentage={selectedElectionVotersPercentage}
+                color='white'
               />
             </div>
           </div>
@@ -119,18 +121,29 @@ const Analysis = () => {
         <div className='analysis__component__right'>
           <div className='analysis__component__right--winner'>
             <div className='winner__card'>
-              <div className='winner__card__title'>
-                Winner
+              <div className='winner__card__text--box'>
+                <div className='winner__card__title'>
+                  Winner
+                </div>
+                <div className='winner__card__name'>
+                  Emmanuel Macron
+                </div>
+                <div className='winner__card__party'>
+                  La République en Marche!
+                </div>
               </div>
-              <div className='winner__card__name'>
-                {/* {latestElections.election_type === 1 ? 'President' : 'Senator'} */}
+              <div className='winner__card__image--box'>
+                <img className='winner__card__image' src='https://pngimage.net/wp-content/uploads/2018/06/macron-png-7.png' alt='winner' />
               </div>
             </div>
           </div>
           <div className='analysis__component__right--winnerVotes'>
-            <div className='winnerVotes__card'>
-              fdfdf
-            </div>
+            <AnalyticsCard
+              title='Winner Votes'
+              number={selectedElectionRegisteredVoters}
+              percentage={selectedElectionRegisteredVotersPercentage}
+              color='green'
+            />
           </div>
         </div>
       </div>

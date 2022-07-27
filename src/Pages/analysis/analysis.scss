@@ -92,44 +92,69 @@
                 padding: 10px;
 
                 .winner__card {
+                    align-items: center;
                     width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex-direction: column;
                     height: 100%;
                     padding: 20px;
                     border-radius: 20px;
                     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                    font-size: 1.1rem;
 
-                    &__title {
+                    &__text--box {
+                        align-items: center;
+
                         display: flex;
                         flex-wrap: wrap;
-                        flex: 1 0 70%;
-                        color: grey;
+                        flex-direction: column;
+                        height: 40%;
+                        width: 100%;
+
+                        .winner__card__title {
+                            color: grey;
+                            font-weight: 600;
+                        }
+
+                        .winner__card__name {
+                            color: var(--primary-blue-color);
+                            font-weight: 700;
+                            font-size: 1.4rem;
+                            margin-top: 6px;
+                        }
+
+                        .winner__card__party {
+                            color: var(--primary-blue-color);
+                            font-weight: 500;
+                            font-size: 1.1rem;
+                            font-style: italic;
+                        }
                     }
 
-                    &__comparison {
+
+                    &__image--box {
                         display: flex;
                         flex-wrap: wrap;
-                        flex: 1 0 20%;
-                        color: green;
-                        float: right;
-                    }
+                        height: 60%;
+                        width: 100%;
+                        flex-direction: column;
+                        align-items: center;
 
+                        .winner__card__image {
+                            max-width: 80%;
+                            max-height: 100%;
+                        }
+                    }
                 }
             }
 
             &--winnerVotes {
-                padding: 10px;
                 width: 100%;
                 height: 40%;
-                display: flex;
                 padding: 10px;
 
-                .winnerVotes__card {
-                    width: 100%;
-                    height: 100%;
-                    padding: 20px;
-                    border-radius: 20px;
-                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-                }
+                .winnerVotes__card {}
             }
         }
     }
