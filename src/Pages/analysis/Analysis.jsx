@@ -7,6 +7,13 @@ import './analysis.scss';
 
 const baseUrl = 'http://ec2-44-202-30-87.compute-1.amazonaws.com:8000';
 
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+
+today = yyyy + '-' + mm + '-' + dd;
+
 const Analysis = () => {
 
   const [latestElections, setLatestElections] = useState([]);
@@ -20,10 +27,14 @@ const Analysis = () => {
   const [selectedElectionVotersPercentage, setSelectedElectionVotersPercentage] = useState(0);
 
   const [selectedElectionWinner, setSelectedElectionWinner] = useState('');
+  const [selectedElectionWinnerVotes, setSelectedElectionWinnerVotes] = useState(0);
+  const [selectedElectionWinnerPercentage, setSelectedElectionWinnerPercentage] = useState(0);
+  const [selectedElectionWinnerParty, setSelectedElectionWinnerParty] = useState('');
+  const [selectedElectionWinnerImage, setSelectedElectionWinnerImage] = useState('');
 
   useEffect(() => {
     const fetchElectionsData = async () => {
-      const { data: { data } } = await axios(`${baseUrl}/elections`);
+      const { data: { data } } = await axios(`${baseUrl}/elections?end='${today}'`);
       setLatestElections(data);
       setSelectedElection(`year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`);
 
@@ -46,6 +57,16 @@ const Analysis = () => {
       }
       fetchVotesData();
 
+      const fetchWinnerData = async () => {
+        const response3 = await axios(`${baseUrl}/analytics/election_winner?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`);
+        setSelectedElectionWinner(response3.data.winner.citizen_firstname + ' ' + response3.data.winner.citizen_lastname);
+        setSelectedElectionWinnerVotes(response3.data.winner.votes);
+        setSelectedElectionWinnerPercentage(response3.data.percentage);
+        setSelectedElectionWinnerParty(response3.data.winner.candidate_party);
+        setSelectedElectionWinnerImage(response3.data.winner.candidate_image);
+      }
+      fetchWinnerData();
+
     }
     fetchElectionsData();
   }, []);
@@ -65,6 +86,14 @@ const Analysis = () => {
 
     setSelectedElectionVoters(response2.data.voters);
     setSelectedElectionVotersPercentage(response2.data.lastElectionDifference);
+
+    let response3 = await axios(`${baseUrl}/analytics/election_winner?${e.target.value}`);
+
+    setSelectedElectionWinner(response3.data.winner.citizen_firstname + ' ' + response3.data.winner.citizen_lastname);
+    setSelectedElectionWinnerVotes(response3.data.winner.votes);
+    setSelectedElectionWinnerPercentage(response3.data.percentage);
+    setSelectedElectionWinnerParty(response3.data.winner.candidate_party);
+    setSelectedElectionWinnerImage(response3.data.winner.candidate_image);
   }
 
   return (
@@ -126,22 +155,22 @@ const Analysis = () => {
                   Winner
                 </div>
                 <div className='winner__card__name'>
-                  Emmanuel Macron
+                  {selectedElectionWinner}
                 </div>
                 <div className='winner__card__party'>
-                  La République en Marche!
+                  {selectedElectionWinnerParty}
                 </div>
               </div>
               <div className='winner__card__image--box'>
-                <img className='winner__card__image' src='https://pngimage.net/wp-content/uploads/2018/06/macron-png-7.png' alt='winner' />
+                <img className='winner__card__image' src={selectedElectionWinnerImage} alt='winner' />
               </div>
             </div>
           </div>
           <div className='analysis__component__right--winnerVotes'>
             <AnalyticsCard
               title='Winner Votes'
-              number={selectedElectionRegisteredVoters}
-              percentage={selectedElectionRegisteredVotersPercentage}
+              number={selectedElectionWinnerVotes}
+              percentage={selectedElectionWinnerPercentage}
               color='green'
             />
           </div>

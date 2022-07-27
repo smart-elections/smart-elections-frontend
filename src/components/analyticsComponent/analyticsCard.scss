@@ -42,6 +42,7 @@
 
     &__lower {
         display: flex;
+        font-size: 1.3rem;
 
         .analytics__card__lower__number {
             color: var(--primary-blue-color);
@@ -86,9 +87,10 @@
 
     &__lower {
         display: flex;
+        font-size: 1.3rem;
 
-        .analytics__card__lower__number {
-            color: var(--primary-blue-color);
+        .analytics__card__green__lower__number {
+            color: white;
         }
     }
 }
