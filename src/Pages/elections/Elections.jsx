@@ -1,12 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './elections.scss';
+import axios from 'axios';
 import moment from 'moment';
-import { getElections } from '../../services/elections.service';
+
+import './elections.scss';
+import { getElections } from '../../services/elections.services';
+import { registerVoterForElection } from '../../services/votes.services';
+
+import useAppStateContext from '../../hooks/useAppStateContext';
 
 const Elections = () => {
   const [elections, setElections] = useState([]);
+  const [isElectionLoading, setIsElectionLoading] = useState(true);
+  const [isUserRegisteredInElection, setIsUserRegisteredInElection] = useState(
+    {}
+  );
   const navigate = useNavigate();
+
+  const {
+    appState: { user },
+  } = useAppStateContext();
 
   useEffect(() => {
     const fetchedElections = async () => {
@@ -17,9 +30,84 @@ const Elections = () => {
         })
       );
       console.log(data);
+      setIsElectionLoading(false);
     };
     fetchedElections();
   }, []);
+
+  useEffect(() => {
+    if (!isElectionLoading) {
+      let userRegisteredElections = {};
+      for (let i = 0; i < elections.length; i++) {
+        const {
+          election_year,
+          election_type,
+          election_round,
+          election_start,
+          election_end,
+        } = elections[i];
+
+        (async () => {
+          const {
+            data: { data },
+          } = await axios(
+            `/voters?ssn=${user.citizen_ssn}&nationality=${user.citizen_nationality}&year=${election_year}&type=${election_type}&round=${election_round}`
+          );
+
+          if (new Date().toISOString() < election_start) {
+            if (data.length === 0) {
+              setIsUserRegisteredInElection(
+                (oldIsUserRegisteredInElection) => ({
+                  ...oldIsUserRegisteredInElection,
+                  [`${election_year}-${election_type}-${election_round}`]: false,
+                })
+              );
+            } else {
+              setIsUserRegisteredInElection(
+                (oldIsUserRegisteredInElection) => ({
+                  ...oldIsUserRegisteredInElection,
+                  [`${election_year}-${election_type}-${election_round}`]: true,
+                })
+              );
+            }
+          } else {
+            setIsUserRegisteredInElection((oldIsUserRegisteredInElection) => ({
+              ...oldIsUserRegisteredInElection,
+              [`${election_year}-${election_type}-${election_round}`]: true,
+            }));
+          }
+        })();
+      }
+
+      setIsUserRegisteredInElection(userRegisteredElections);
+    }
+  }, [
+    elections,
+    isElectionLoading,
+    user.citizen_nationality,
+    user.citizen_ssn,
+  ]);
+
+  const registerForVoting = async (
+    election_year,
+    election_type,
+    election_round
+  ) => {
+    const body = {
+      election_year,
+      election_type,
+      election_round,
+      citizen_ssn: user.citizen_ssn,
+      citizen_nationality: user.citizen_nationality,
+    };
+
+    await registerVoterForElection(body);
+
+    setIsUserRegisteredInElection((oldIsUserRegisteredInElection) => ({
+      ...oldIsUserRegisteredInElection,
+      [`${election_year}-${election_type}-${election_round}`]: true,
+    }));
+  };
 
   const electionVotingAction = (from, to, current) => {
     let startDate, endDate, currentDate;
@@ -83,7 +171,12 @@ const Elections = () => {
 
                 return (
                   <>
-                    <tr className='spacer' key={index}>
+                    <tr
+                      className='spacer'
+                      key={
+                        index + election_year + election_type + election_round
+                      }
+                    >
                       <td colSpan='100'></td>
                     </tr>
 
@@ -103,17 +196,38 @@ const Elections = () => {
                           ? '2nd'
                           : null}
                       </td>
-                      <td>{moment(`${election_start}`).format('MMMM Do')}</td>
-                      <td>{moment(`${election_end}`).format('MMMM Do')}</td>
+                      <td>
+                        {moment(`${election_start}`).format('MMMM Do, YYYY')}
+                      </td>
+                      <td>
+                        {moment(`${election_end}`).format('MMMM Do, YYYY')}
+                      </td>
                       <td style={{ textAlign: 'center' }}>
-                        <button
-                          className={`voting-action ${votingActionHoverClassName}`}
-                          onClick={() => {
-                            navigate(navigationDestination);
-                          }}
-                        >
-                          {votingAction}
-                        </button>
+                        {isUserRegisteredInElection[
+                          `${election_year}-${election_type}-${election_round}`
+                        ] === true ? (
+                          <button
+                            className={`voting-action ${votingActionHoverClassName}`}
+                            onClick={() => {
+                              navigate(navigationDestination);
+                            }}
+                          >
+                            {votingAction}
+                          </button>
+                        ) : (
+                          <button
+                            className={`voting-action register-for-voting-hover`}
+                            onClick={() =>
+                              registerForVoting(
+                                election_year,
+                                election_type,
+                                election_round
+                              )
+                            }
+                          >
+                            Register
+                          </button>
+                        )}
                       </td>
                     </tr>
                   </>

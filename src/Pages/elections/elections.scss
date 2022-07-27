@@ -84,6 +84,15 @@
           background-color: #28a745;
         }
 
+        .register-for-voting-hover {
+          background-color: #9fbeea;
+          color: rgb(33, 33, 33);
+        }
+
+        .register-for-voting-hover:hover {
+          background-color: #6c757d;
+        }
+
         .voting-action:focus {
           outline: 2px solid transparent;
           outline-offset: 2px;
