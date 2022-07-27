@@ -25,6 +25,7 @@ import SingleCandidate from './Pages/singleCandidate/SingleCandidate';
 import Elections from './Pages/elections/Elections';
 import ElectionVoting from './Pages/electionVoting/ElectionVoting';
 import ElectionAnalytics from './Pages/electionAnalytics/ElectionAnalytics';
+import ElectionCandidates from './Pages/electionCandidates/ElectionCandidates';
 import ChangePassword from './Pages/changePassword/ChangePassword';
 import NotFound from './Pages/notFound/NotFound';
 import Sidebar from './components/sidebar/Sidebar';
@@ -97,12 +98,16 @@ const App = () => {
                   <Route element={<PrivateRoute />}>
                     <Route index element={<Elections />} />
                     <Route
-                      path='voting/:year/:electionId'
+                      path='voting/:electionYear/:electionRound/:electionType'
                       element={<ElectionVoting />}
                     />
                     <Route
-                      path='analytics/:year/:electionId'
+                      path='analytics/:electionYear/:electionRound/:electionType'
                       element={<ElectionAnalytics />}
+                    />
+                    <Route
+                      path='candidates/:electionYear/:electionRound/:electionType'
+                      element={<ElectionCandidates />}
                     />
                   </Route>
                 </Route>
