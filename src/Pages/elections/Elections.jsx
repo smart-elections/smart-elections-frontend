@@ -1,80 +1,127 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './elections.scss';
-
+import moment from 'moment';
 import { getElections } from '../../services/elections.service';
-
-const ElectionsList = ({ electionsData }) => {
-  console.log(electionsData);
-  return (
-    <>
-      {electionsData.map(
-        ({
-          election_id,
-          election_start,
-          election_end,
-          election_type,
-          election_round,
-          election_year,
-        }) => (
-          <div className='elections__card' key={election_id}>
-            <div className='card_info'>
-              <p className='elections__year'>{election_year}</p>
-              <p className='elections__type'>{election_type}</p>
-              <p className='elections__round'>{election_round}</p>
-              <p className='elections__winner'>empty/null</p>
-              <p className='elections__date'>{election_start}</p>
-              <div className='elections__button_box'>
-                <button
-                  type='submit'
-                  // className={
-                  //   elections.completed
-                  //     ? 'elections__button__completed'
-                  //     : 'elections__button__pending'
-                  // }
-                  className='elections__button__pending'
-                >
-                  View
-                  {/* {elections.completed ? 'View' : 'Vote'} */}
-                </button>
-              </div>
-            </div>
-          </div>
-        )
-      )}
-    </>
-  );
-};
 
 const Elections = () => {
   const [elections, setElections] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchedElections = async () => {
       const { data } = await getElections();
-      setElections(data);
+      setElections(
+        data.sort((a, b) => {
+          return b.election_year - a.election_year;
+        })
+      );
       console.log(data);
     };
     fetchedElections();
   }, []);
 
+  const electionVotingAction = (from, to, current) => {
+    let startDate, endDate, currentDate;
+    startDate = Date.parse(from);
+    endDate = Date.parse(to);
+    currentDate = Date.parse(current);
+
+    if (currentDate <= endDate && currentDate >= startDate) return 'Cast Vote';
+    else if (currentDate < startDate) return 'View Candidates';
+    else if (currentDate > endDate) return 'View Results';
+  };
+
   return (
     <>
-      <div className='elections__block'>
-        <div className='elections__card__header'>
-          <div className='card_info'>
-            <p className='elections__year__title'>Year</p>
-            <p className='elections__type__title'>Type</p>
-            <p className='elections__round__title'>Round</p>
-            <p className='elections__winner__title'>Winner</p>
-            <p className='elections__date__title'>Start Date</p>
-            <p className='elections__blank__title'></p>
-          </div>
-        </div>
-        <div className='elections__container' id='style-scrollbar'>
-          <div className='main_content'>
-            <ElectionsList electionsData={elections} />
-          </div>
-        </div>
+      <div className='table-container'>
+        <table className='custom-table' cellSpacing='0'>
+          <thead>
+            <tr>
+              <th scope='col'>Year</th>
+              <th scope='col'>Type</th>
+              <th scope='col'>Round</th>
+              <th scope='col'>Start Date</th>
+              <th scope='col'>End Date</th>
+              <th scope='col' style={{ textAlign: 'center' }}>
+                Action
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {elections.map(
+              (
+                {
+                  election_id,
+                  election_year,
+                  election_type,
+                  election_round,
+                  election_start,
+                  election_end,
+                },
+                index
+              ) => {
+                const votingAction = electionVotingAction(
+                  election_start,
+                  election_end,
+                  new Date().toISOString()
+                );
+
+                let navigationDestination = '';
+                let votingActionHoverClassName = '';
+                if (votingAction === 'Cast Vote') {
+                  navigationDestination = `voting/${election_year}/${election_round}/${election_type}`;
+                  votingActionHoverClassName = 'cast-vote-hover';
+                } else if (votingAction === 'View Candidates') {
+                  navigationDestination = `candidates/${election_year}/${election_round}/${election_type}`;
+                  votingActionHoverClassName = 'view-candidates-hover';
+                } else if (votingAction === 'View Results') {
+                  navigationDestination = `analytics/${election_year}/${election_round}/${election_type}`;
+                  votingActionHoverClassName = 'view-results-hover';
+                }
+
+                return (
+                  <>
+                    <tr className='spacer' key={index}>
+                      <td colSpan='100'></td>
+                    </tr>
+
+                    <tr key={election_id}>
+                      <td>{election_year}</td>
+                      <td>
+                        {election_type === 1
+                          ? 'Presidential'
+                          : election_type === 2
+                          ? 'Parliamentary'
+                          : 'Local'}
+                      </td>
+                      <td>
+                        {election_round === 1
+                          ? '1st'
+                          : election_round === 2
+                          ? '2nd'
+                          : null}
+                      </td>
+                      <td>{moment(`${election_start}`).format('MMMM Do')}</td>
+                      <td>{moment(`${election_end}`).format('MMMM Do')}</td>
+                      <td style={{ textAlign: 'center' }}>
+                        <button
+                          className={`voting-action ${votingActionHoverClassName}`}
+                          onClick={() => {
+                            navigate(navigationDestination);
+                          }}
+                        >
+                          {votingAction}
+                        </button>
+                      </td>
+                    </tr>
+                  </>
+                );
+              }
+            )}
+          </tbody>
+        </table>
       </div>
     </>
   );

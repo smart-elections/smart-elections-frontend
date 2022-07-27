@@ -1,205 +1,106 @@
-.elections__block {
-  display: inline-block;
-  width: 100%;
+.table-container {
+  display: flex;
+  justify-content: center;
 }
 
-.elections__container {
-  overflow-y: scroll;
-  height: 100vh;
-}
-
-#style-scrollbar::-webkit-scrollbar-track {
-  margin-top: 24px;
-  -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
-  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  background-color: whitesmoke;
-}
-
-#style-scrollbar::-webkit-scrollbar {
-  width: 12px;
-  background-color: white;
-}
-
-#style-scrollbar::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #adadad;
-}
-
-.elections__card {
-  color: white;
-  margin-top: 25px;
-  margin-left: 45px;
-  margin-right: 45px;
-  width: 91%;
-  height: 100px;
-  padding: 20px;
-  background-color: var(--primary-blue-color);
-  border: 0.5px solid #2d2d2d;
-  border-radius: 14px;
-
-  .card_info {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-    font-size: 21px;
-    font-weight: 600;
-
-    .elections__year {
-      flex: 1 0 8%;
-      vertical-align: middle;
-      margin: 5px;
-      height: 50px;
-      text-align: center;
-      padding: 10px;
-    }
-
-    .elections__type {
-      text-align: center;
-      flex: 1 0 20%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
-
-    .elections__round {
-      text-align: center;
-      flex: 1 0 10%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
-
-    .elections__winner {
-      text-align: center;
-      flex: 1 0 20%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
-
-    .elections__date {
-      text-align: center;
-      flex: 1 0 15%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
-
-    .elections__button_box {
-      text-align: center;
-      flex: 1 0 7%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
-
-    .elections__button__completed {
-      position: relative;
-      top: -30%;
-      text-align: center;
-      padding: 12px;
-      background-color: rgb(231, 237, 251);
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      color: var(--primary-blue-color);
-      font-size: 18px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .elections__button__completed:hover {
-      background-color: rgb(147, 149, 203);
-      color: white;
-    }
-
-    .elections__button__pending {
-      position: relative;
-      top: -30%;
-      text-align: center;
-      padding: 12px;
-      background-color: rgb(231, 237, 251);
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      color: var(--primary-blue-color);
-      font-size: 18px;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .elections__button__pending:hover {
-      background-color: rgb(109, 204, 109);
-      color: white;
+.custom-table {
+  min-width: 900px;
+  thead {
+    tr,
+    th {
+      border-top: none;
+      border-bottom: none !important;
+      text-align: left;
     }
   }
-}
 
-.elections__card__header {
-  color: white;
-  margin-left: 45px;
-  margin-right: 45px;
-  width: 91%;
-  padding: 10px;
-  font-weight: 600;
-  color: rgb(70, 68, 68);
-  border: none;
-  border-radius: 20px;
-
-  .card_info {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-    font-size: 20px;
-
-    .elections__year__title {
-      flex: 1 0 8%;
-      vertical-align: middle;
-      margin: 5px;
-      height: 50px;
-      text-align: center;
-      padding: 10px;
+  tbody {
+    th,
+    td {
+      color: white;
+      font-weight: 400;
+      padding-bottom: 20px;
+      padding-top: 20px;
+      padding-left: 7px;
+      font-weight: 300;
     }
+    tr {
+      &:not(.spacer) {
+        border-radius: 7px;
+        overflow: hidden;
+        transition: 0.3s all ease;
+        &:hover {
+          box-shadow: 0 2px 10px -5px rgba(#000, 0.1);
+        }
+      }
+      th,
+      td {
+        background: var(--primary-blue-color);
+        border: none;
 
-    .elections__type__title {
-      text-align: center;
-      flex: 1 0 20%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
+        &:first-child {
+          border-top-left-radius: 7px;
+          border-bottom-left-radius: 7px;
+        }
+        &:last-child {
+          border-top-right-radius: 7px;
+          border-bottom-right-radius: 7px;
+        }
 
-    .elections__round__title {
-      text-align: center;
-      flex: 1 0 10%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
+        /* voting action button*/
+        .voting-action {
+          background-color: #ffffff;
+          width: 145px;
+          border: 0;
+          border-radius: 0.5rem;
+          box-sizing: border-box;
+          color: #111827;
+          font-family: 'Inter var', ui-sans-serif, system-ui, -apple-system,
+            system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+            sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+            'Noto Color Emoji';
+          font-size: 0.875rem;
+          font-weight: 600;
+          line-height: 1.25rem;
+          padding: 0.75rem 1rem;
+          text-align: center;
+          text-decoration: none #d1d5db solid;
+          text-decoration-thickness: auto;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+            0 1px 2px 0 rgba(0, 0, 0, 0.06);
+          cursor: pointer;
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+        }
 
-    .elections__winner__title {
-      text-align: center;
-      flex: 1 0 20%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
+        .cast-vote-hover:hover {
+          background-color: #007bff;
+        }
+        .view-candidates-hover:hover {
+          background-color: #17a2b8;
+        }
+        .view-results-hover:hover {
+          background-color: #28a745;
+        }
 
-    .elections__date__title {
-      text-align: center;
-      flex: 1 0 15%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
-    }
+        .voting-action:focus {
+          outline: 2px solid transparent;
+          outline-offset: 2px;
+        }
 
-    .elections__blank__title {
-      text-align: center;
-      flex: 1 0 7%;
-      margin: 5px;
-      height: 50px;
-      padding: 10px;
+        .voting-action:focus-visible {
+          box-shadow: none;
+        }
+      }
+      &.spacer {
+        td {
+          padding: 0 !important;
+          height: 10px;
+          border-radius: 0 !important;
+          background: transparent !important;
+        }
+      }
     }
   }
 }
