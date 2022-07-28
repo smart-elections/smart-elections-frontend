@@ -5,13 +5,14 @@ import axios from 'axios';
 import AnalyticsCard from '../../components/analyticsComponent/AnalyticsCard.jsx';
 import './analysis.scss';
 
+import BarChart from '../../components/analyticsComponent/BarChart.js';
+
 const baseUrl = 'http://ec2-44-202-30-87.compute-1.amazonaws.com:8000';
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0');
 var yyyy = today.getFullYear();
-
 today = yyyy + '-' + mm + '-' + dd;
 
 const Analysis = () => {
@@ -31,6 +32,8 @@ const Analysis = () => {
   const [selectedElectionWinnerPercentage, setSelectedElectionWinnerPercentage] = useState(0);
   const [selectedElectionWinnerParty, setSelectedElectionWinnerParty] = useState('');
   const [selectedElectionWinnerImage, setSelectedElectionWinnerImage] = useState('');
+
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchElectionsData = async () => {
@@ -67,10 +70,15 @@ const Analysis = () => {
       }
       fetchWinnerData();
 
+      const fetchChartData = async () => {
+        const response4 = await axios(`${baseUrl}/analytics/election_winner?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`);
+        setChartData(response4.data.results);
+      }
+      fetchChartData();
+
     }
     fetchElectionsData();
   }, []);
-
 
   const onElectionChange = async (e) => {
     console.log(e.target.value);
@@ -94,6 +102,11 @@ const Analysis = () => {
     setSelectedElectionWinnerPercentage(response3.data.percentage);
     setSelectedElectionWinnerParty(response3.data.winner.candidate_party);
     setSelectedElectionWinnerImage(response3.data.winner.candidate_image);
+
+    let response4 = await axios(`${baseUrl}/analytics/election_winner?${e.target.value}`);
+
+    setChartData(response4.data.results);
+
   }
 
   return (
@@ -143,7 +156,8 @@ const Analysis = () => {
           </div>
           <div className='analysis__component__left__lower'>
             <div className='analysis__component__left__lower--graph'>
-              Graph here
+              <BarChart
+                data={chartData} />
             </div>
           </div>
         </div>
