@@ -5,7 +5,6 @@ import './news.scss';
 
 const News = () => {
   const [data, setData] = useState();
-  const apiKey = '30d90e1a9a2944bdb2d283c4e559950b';
 
   useEffect(() => {
     axios
@@ -22,8 +21,8 @@ const News = () => {
         <div className='all__news'>
           {data
             ? data.results.map((news) => (
-              <NewsArticle data={news} key={news.link} />
-            ))
+                <NewsArticle data={news} key={news.link} />
+              ))
             : 'Loading'}
         </div>
       </div>

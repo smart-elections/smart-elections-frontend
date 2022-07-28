@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import useAppStateContext from '../hooks/useAppStateContext';
 
 // TODO: CHECK WHETHER THE USER IS AUTHENTICATED OR NOT
