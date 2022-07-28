@@ -161,7 +161,7 @@ const Analysis = () => {
 
   return (
     <div className='analysis__container'>
-      <div className='electionSelectContainer'>
+      <div className='electionSelectContainer' style={{ paddingRight: '25px' }}>
         <Box sx={{ minWidth: 150 }}>
           <FormControl fullWidth>
             <InputLabel id='selectedElection-label'>Election</InputLabel>

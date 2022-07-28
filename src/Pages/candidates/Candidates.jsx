@@ -94,7 +94,10 @@ const Candidates = () => {
         />
       )}
       <div>
-        <div className='electionSelectContainer'>
+        <div
+          className='electionSelectContainer'
+          style={{ paddingRight: '55px' }}
+        >
           <Box sx={{ minWidth: 150 }}>
             <FormControl fullWidth>
               <InputLabel id='selectedElection-label'>Election</InputLabel>
