@@ -66,10 +66,12 @@ const CandidateProfileModal = ({
   open,
   handleClose,
   candidateDetails: {
+    candidate_image,
     citizen_firstname,
     citizen_lastname,
     candidate_party,
     citizen_yob,
+    candidate_bio,
   },
 }) => {
   return (
@@ -87,7 +89,10 @@ const CandidateProfileModal = ({
           <div className='candidate-profile-modal__content-container'>
             <div className='candidate-profile-modal__image-container'>
               <img
-                src={`https://via.placeholder.com/150?text=${citizen_firstname}`}
+                src={
+                  candidate_image ||
+                  `https://via.placeholder.com/150?text=${citizen_firstname}`
+                }
                 alt={citizen_firstname + ' ' + citizen_lastname}
                 title={citizen_firstname + ' ' + citizen_lastname}
               />
@@ -108,12 +113,14 @@ const CandidateProfileModal = ({
             </div>
           </div>
 
-          <div className='candidate-profile-modal__biography-container'>
-            <Typography gutterBottom>
-              <span>Biography: </span>
-              <p className='biography-text'>{'biography'}</p>
-            </Typography>
-          </div>
+          {candidate_bio && (
+            <div className='candidate-profile-modal__biography-container'>
+              <Typography gutterBottom>
+                <span>Biography: </span>
+                <p className='biography-text'>{candidate_bio}</p>
+              </Typography>
+            </div>
+          )}
         </DialogContent>
       </BootstrapDialog>
     </div>
