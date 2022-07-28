@@ -2,3 +2,10 @@
   from = "/*"
   to = "/"
   status = 200
+
+
+[[redirects]]
+from = "http://ec2-44-202-30-87.compute-1.amazonaws.com:8000*"
+to = "http://ec2-44-202-30-87.compute-1.amazonaws.com:8000:splat"
+status = 200
+force = true
