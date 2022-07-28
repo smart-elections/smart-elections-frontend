@@ -9,7 +9,6 @@ import BarChart from '../../components/analyticsComponent/BarChart.js';
 
 import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link';
 
 const ElectionAnalytics = () => {
   const { electionYear, electionRound, electionType } = useParams();
