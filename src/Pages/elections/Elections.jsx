@@ -9,12 +9,15 @@ import { registerVoterForElection } from '../../services/votes.services';
 
 import useAppStateContext from '../../hooks/useAppStateContext';
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 const Elections = () => {
   const [elections, setElections] = useState([]);
   const [isElectionLoading, setIsElectionLoading] = useState(true);
   const [isUserRegisteredInElection, setIsUserRegisteredInElection] = useState(
     {}
   );
+  const [isElectionWinnerLoading, setIsElectionWinnerLoading] = useState(true);
   const navigate = useNavigate();
 
   const {
@@ -39,13 +42,8 @@ const Elections = () => {
     if (!isElectionLoading) {
       let userRegisteredElections = {};
       for (let i = 0; i < elections.length; i++) {
-        const {
-          election_year,
-          election_type,
-          election_round,
-          election_start,
-          election_end,
-        } = elections[i];
+        const { election_year, election_type, election_round, election_start } =
+          elections[i];
 
         (async () => {
           const {
@@ -80,6 +78,7 @@ const Elections = () => {
       }
 
       setIsUserRegisteredInElection(userRegisteredElections);
+      setIsElectionWinnerLoading(false);
     }
   }, [
     elections,
@@ -214,7 +213,7 @@ const Elections = () => {
                           >
                             {votingAction}
                           </button>
-                        ) : (
+                        ) : !isElectionWinnerLoading === true ? (
                           <button
                             className={`voting-action register-for-voting-hover`}
                             onClick={() =>
@@ -227,6 +226,8 @@ const Elections = () => {
                           >
                             Register
                           </button>
+                        ) : (
+                          <CircularProgress />
                         )}
                       </td>
                     </tr>

@@ -53,14 +53,16 @@ const ElectionCandidates = () => {
         {!loadingCandidates ? (
           candidates?.map((candidate) => (
             <CandidateCard
-              key={candidate.name}
+              key={candidate.candidate_id}
               imageUrl={
-                candidate.imageUrl ||
+                candidate.candidate_image ||
                 `https://via.placeholder.com/150?text=${candidate.citizen_firstname}`
               }
               buttonAction={openCandidateModal.bind(this, candidate)}
-              name={candidate.name}
-              party={candidate.party}
+              name={
+                candidate.citizen_firstname + ' ' + candidate.citizen_lastname
+              }
+              party={candidate.candidate_party}
               buttonText='View'
             />
           ))
