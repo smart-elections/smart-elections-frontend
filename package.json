@@ -46,6 +46,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://ec2-44-202-30-87.compute-1.amazonaws.com:8000"
+  }
 }

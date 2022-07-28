@@ -16,8 +16,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const baseUrl = 'http://ec2-44-202-30-87.compute-1.amazonaws.com:8000';
-
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -48,7 +46,7 @@ const Candidates = () => {
     const fetchElectionsData = async () => {
       const {
         data: { data },
-      } = await axios(`${baseUrl}/elections?end='${today}'`);
+      } = await axios(`/elections?end='${today}'`);
       setLatestElections(data);
       setSelectedElection(
         `year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
