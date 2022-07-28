@@ -1,0 +1,115 @@
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+.custom-table {
+  min-width: 900px;
+  thead {
+    tr,
+    th {
+      border-top: none;
+      border-bottom: none !important;
+      text-align: left;
+    }
+  }
+
+  tbody {
+    th,
+    td {
+      color: white;
+      font-weight: 400;
+      padding-bottom: 20px;
+      padding-top: 20px;
+      padding-left: 7px;
+      font-weight: 300;
+    }
+    tr {
+      &:not(.spacer) {
+        border-radius: 7px;
+        overflow: hidden;
+        transition: 0.3s all ease;
+        &:hover {
+          box-shadow: 0 2px 10px -5px rgba(#000, 0.1);
+        }
+      }
+      th,
+      td {
+        background: var(--primary-blue-color);
+        border: none;
+
+        &:first-child {
+          border-top-left-radius: 7px;
+          border-bottom-left-radius: 7px;
+        }
+        &:last-child {
+          border-top-right-radius: 7px;
+          border-bottom-right-radius: 7px;
+        }
+
+        /* voting action button*/
+        .voting-action {
+          background-color: #ffffff;
+          width: 145px;
+          border: 0;
+          border-radius: 0.5rem;
+          box-sizing: border-box;
+          color: #111827;
+          font-family: 'Inter var', ui-sans-serif, system-ui, -apple-system,
+            system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+            sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+            'Noto Color Emoji';
+          font-size: 0.875rem;
+          font-weight: 600;
+          line-height: 1.25rem;
+          padding: 0.75rem 1rem;
+          text-align: center;
+          text-decoration: none #d1d5db solid;
+          text-decoration-thickness: auto;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+            0 1px 2px 0 rgba(0, 0, 0, 0.06);
+          cursor: pointer;
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+        }
+
+        .cast-vote-hover:hover {
+          background-color: #007bff;
+        }
+        .view-candidates-hover:hover {
+          background-color: #17a2b8;
+        }
+        .view-results-hover:hover {
+          background-color: #28a745;
+        }
+
+        .register-for-voting-hover {
+          background-color: #9fbeea;
+          color: rgb(33, 33, 33);
+        }
+
+        .register-for-voting-hover:hover {
+          background-color: #6c757d;
+        }
+
+        .voting-action:focus {
+          outline: 2px solid transparent;
+          outline-offset: 2px;
+        }
+
+        .voting-action:focus-visible {
+          box-shadow: none;
+        }
+      }
+      &.spacer {
+        td {
+          padding: 0 !important;
+          height: 10px;
+          border-radius: 0 !important;
+          background: transparent !important;
+        }
+      }
+    }
+  }
+}

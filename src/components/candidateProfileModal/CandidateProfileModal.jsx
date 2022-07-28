@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 
 import Dialog from '@mui/material/Dialog';
 import './candidateProfileModal.scss';
+import moment from 'moment';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiPaper-root': {
@@ -64,7 +65,14 @@ CustomModalTitle.propTypes = {
 const CandidateProfileModal = ({
   open,
   handleClose,
-  candidateDetails: { imageUrl, name, dateOfBirth, party, biography },
+  candidateDetails: {
+    candidate_image,
+    citizen_firstname,
+    citizen_lastname,
+    candidate_party,
+    citizen_yob,
+    candidate_bio,
+  },
 }) => {
   return (
     <div>
@@ -74,36 +82,45 @@ const CandidateProfileModal = ({
         open={open}
       >
         <CustomModalTitle id='customized-dialog-title' onClose={handleClose}>
-          {name}
+          {citizen_firstname + ' ' + citizen_lastname}
         </CustomModalTitle>
 
         <DialogContent dividers>
           <div className='candidate-profile-modal__content-container'>
             <div className='candidate-profile-modal__image-container'>
-              <img src={imageUrl} alt={name} title={name} />
+              <img
+                src={
+                  candidate_image ||
+                  `https://via.placeholder.com/150?text=${citizen_firstname}`
+                }
+                alt={citizen_firstname + ' ' + citizen_lastname}
+                title={citizen_firstname + ' ' + citizen_lastname}
+              />
             </div>
             <div className='candidate-profile-modal__details-container'>
               <Typography variant='h6'>
                 <span>Name: </span>
-                {name}
+                {citizen_firstname + ' ' + citizen_lastname}
               </Typography>
               <Typography variant='body1'>
                 <span>Party: </span>
-                {party}
+                {candidate_party}
               </Typography>
               <Typography variant='body1'>
-                <span>Date of Birth: </span>
-                {dateOfBirth}
+                <span>Age: </span>
+                {moment().diff(citizen_yob.slice(0, 10), 'years')}
               </Typography>
             </div>
           </div>
 
-          <div className='candidate-profile-modal__biography-container'>
-            <Typography gutterBottom>
-              <span>Biography: </span>
-              <p className='biography-text'>{biography}</p>
-            </Typography>
-          </div>
+          {candidate_bio && (
+            <div className='candidate-profile-modal__biography-container'>
+              <Typography gutterBottom>
+                <span>Biography: </span>
+                <p className='biography-text'>{candidate_bio}</p>
+              </Typography>
+            </div>
+          )}
         </DialogContent>
       </BootstrapDialog>
     </div>
