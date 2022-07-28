@@ -32,7 +32,6 @@ const Elections = () => {
           return b.election_year - a.election_year;
         })
       );
-      console.log(data);
       setIsElectionLoading(false);
     };
     fetchedElections();

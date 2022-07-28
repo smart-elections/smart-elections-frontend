@@ -5,9 +5,6 @@ export const login = async (formValues, dispatch, navigate) => {
   await axios
     .post('/accounts/login', formValues)
     .then((response) => {
-      console.log(response);
-      console.log(response.data.data);
-
       if (response.status === 200) {
         toast.success("You're logged in!");
 
@@ -30,8 +27,6 @@ export const register = async (formValues, handleOpenMetaMaskFormModal) => {
   await axios
     .put('/accounts/signup', formValues)
     .then((response) => {
-      console.log(response);
-      console.log(response.data);
       if (response.status === 200) {
         toast.success(response.data.message);
 
@@ -50,14 +45,10 @@ export const addMetaMaskWallet = async (formValues, handleClose, dispatch) => {
   await axios
     .put('accounts/add/wallet', formValues)
     .then((response) => {
-      console.log(response);
-      console.log(response.data);
-
       if (response.status === 200) {
         toast.success('MetaMask wallet address registered!');
 
         if (dispatch) {
-          console.log('dispatching');
           dispatch({
             type: 'AddMetaMaskWallet',
             payload: { wallet_address: formValues.wallet_address },

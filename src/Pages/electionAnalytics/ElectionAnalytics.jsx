@@ -16,8 +16,6 @@ const ElectionAnalytics = () => {
 
   let electionQuery = `?year=${electionYear}&round=${electionRound}&type=${electionType}`;
 
-  console.log(electionYear, electionRound, electionType);
-
   const [
     selectedElectionRegisteredVoters,
     setSelectedElectionRegisteredVoters,
@@ -57,8 +55,6 @@ const ElectionAnalytics = () => {
         setSelectedElectionRegisteredVotersPercentage(
           response1.data.lastElectionDifference
         );
-
-        console.log(response1.data);
       };
       fetchRegisteredData();
 
@@ -68,7 +64,6 @@ const ElectionAnalytics = () => {
         setSelectedElectionVotersPercentage(
           response2.data.lastElectionDifference
         );
-        console.log(response2.data);
       };
       fetchVotesData();
 

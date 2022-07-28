@@ -5,12 +5,8 @@ export const registerVoterForElection = async (body) => {
   await axios
     .post('/voters/add/voter', body)
     .then((response) => {
-      console.log(response);
-
       if (response.status === 200) {
         toast.success('You have registered for election voting successfully');
-
-        console.log(response.data);
       } else {
         toast.error(response.data.message);
       }

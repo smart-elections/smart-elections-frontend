@@ -64,11 +64,6 @@ const Analysis = () => {
         `year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
       );
 
-      console.log(
-        '1st',
-        `year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
-      );
-
       const fetchRegisteredData = async () => {
         const response1 = await axios(
           `/analytics/registered_voters?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
@@ -77,8 +72,6 @@ const Analysis = () => {
         setSelectedElectionRegisteredVotersPercentage(
           response1.data.lastElectionDifference
         );
-
-        console.log(response1.data);
       };
       fetchRegisteredData();
 
@@ -90,7 +83,6 @@ const Analysis = () => {
         setSelectedElectionVotersPercentage(
           response2.data.lastElectionDifference
         );
-        console.log(response2.data);
       };
       fetchVotesData();
 
@@ -122,15 +114,11 @@ const Analysis = () => {
   }, []);
 
   const onElectionChange = async (e) => {
-    console.log(e.target.value);
-
     setSelectedElection(e.target.value);
 
     let response = await axios(
       `/analytics/registered_voters?${e.target.value}`
     );
-
-    console.log('on election change', response.data);
 
     setSelectedElectionRegisteredVoters(response.data.registered_voters);
     setSelectedElectionRegisteredVotersPercentage(

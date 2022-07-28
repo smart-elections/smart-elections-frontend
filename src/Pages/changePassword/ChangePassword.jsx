@@ -32,7 +32,6 @@ const ChangePassword = () => {
     const noErrors = Object.values(formErrors).every((x) => x === '');
     if (noErrors) {
       // TODO: call API to change password
-      console.log(formErrors);
     }
   };
 

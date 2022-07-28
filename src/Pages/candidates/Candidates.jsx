@@ -37,7 +37,6 @@ const Candidates = () => {
   };
 
   const openCandidateModal = (candidate) => {
-    console.log(candidate);
     setOpen(true);
     setSelectedCandidate(candidate);
   };
@@ -65,8 +64,6 @@ const Candidates = () => {
   }, []);
 
   const onElectionChange = async (e) => {
-    console.log(e.target.value);
-
     setSelectedElection(e.target.value);
 
     const [year, round, type] = e.target.value.split('&');
@@ -79,7 +76,6 @@ const Candidates = () => {
       round.substring(round.indexOf('=') + 1)
     );
 
-    console.log(candidateResponse.data);
     setElectionCandidates(candidateResponse.data);
     setLoadingCandidates(false);
   };

@@ -24,14 +24,10 @@ const ElectionVoting = () => {
     appState: { user },
   } = useAppStateContext();
 
-  console.log('user', user);
-
   const { electionYear, electionRound, electionType } = useParams();
-  console.log(electionYear, electionRound, electionType);
 
   useEffect(() => {
     connectWallet(setCorrectNetwork, correctNetwork, setCurrentAccount);
-    console.log(currentAccount);
   }, [correctNetwork, currentAccount]);
 
   useEffect(() => {
@@ -42,7 +38,6 @@ const ElectionVoting = () => {
         electionRound
       );
       setElectionCandidates(data);
-      console.log(data);
     };
     fetchedElections();
   }, [electionRound, electionType, electionYear]);
@@ -91,7 +86,6 @@ const ElectionVoting = () => {
   };
 
   const onVoteHandler = async ({ candidate_id }) => {
-    console.log('Voting for', candidate_id);
     if (
       currentAccount === '' ||
       currentAccount === null ||

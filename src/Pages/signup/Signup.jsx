@@ -49,8 +49,6 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formValues);
-
     const noErrors = Object.values(formErrors).every((err) => err === '');
     if (noErrors) {
       // calling the backend api 'signup' to register the user

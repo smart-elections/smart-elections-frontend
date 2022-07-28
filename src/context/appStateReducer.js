@@ -1,8 +1,6 @@
 const AppStateReducer = (state, action) => {
   switch (action.type) {
     case 'Login': {
-      console.log('Action', action);
-
       // Add the user to local storage
       localStorage.setItem(
         'SmartElectionsProfile',

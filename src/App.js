@@ -33,7 +33,6 @@ import Navbar from './components/navbar/Navbar';
 
 const App = () => {
   const { appState, dispatch } = useAppStateContext();
-  console.log('App State:\n', appState);
 
   const [componentMounted, setComponentMounted] = useState(false);
 
