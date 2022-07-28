@@ -1,5 +1,7 @@
 # Smart Contract Voting System Interface
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b4b8b31a-29a4-4b08-9a90-92f861e93815/deploy-status)](https://app.netlify.com/sites/smart-elections/deploys)
+
 Small documentation to further understand the flow of the website.
 
 ## Routes
@@ -57,9 +59,3 @@ Fetches and displays the data of authenticated user
 ### News
 
 Route: `/news`
-
-Using external api or something to fetch latest news and display them
-
-## TODO
-
-- Create a flowchart ?
