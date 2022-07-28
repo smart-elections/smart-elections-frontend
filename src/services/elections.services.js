@@ -85,7 +85,7 @@ export const checkCorrectNetwork = async (setCorrectNetwork) => {
     toast.error('You are not connected to the Goerli Testnet!');
     setCorrectNetwork(false);
   } else {
-    toast.success('You are connected to the Goerli Testnet!');
+    // toast.success('You are connected to the Goerli Testnet!');
     setCorrectNetwork(true);
   }
 };

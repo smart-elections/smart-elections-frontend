@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './electionVoting.scss';
 import { toast } from 'react-toastify';
 import { ethers } from 'ethers';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { smartElectionsContractAddress } from '../../config.js';
 import smartElectionsApplicationContract from '../../services/smartElectionsApplicationContract.json';
@@ -15,6 +15,9 @@ import {
 } from '../../services/elections.services';
 import CandidateCard from '../../components/candidateComponent/candidateCard.jsx';
 
+import Typography from '@mui/material/Typography';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+
 const ElectionVoting = () => {
   const [currentAccount, setCurrentAccount] = useState('');
   const [correctNetwork, setCorrectNetwork] = useState(false);
@@ -25,6 +28,9 @@ const ElectionVoting = () => {
   } = useAppStateContext();
 
   const { electionYear, electionRound, electionType } = useParams();
+  const navigate = useNavigate();
+
+  console.log(electionYear, electionRound, electionType);
 
   useEffect(() => {
     connectWallet(setCorrectNetwork, correctNetwork, setCurrentAccount);
@@ -104,13 +110,38 @@ const ElectionVoting = () => {
 
   return (
     <>
+      <div role='presentation' style={{ marginLeft: '10px' }}>
+        <Breadcrumbs aria-label='breadcrumb'>
+          <Typography
+            className='breadCrumb-typography'
+            onClick={() => navigate(-1)}
+          >
+            Elections
+          </Typography>
+          <Typography color='text.primary'>
+            {electionRound === '1' ? '1st' : '2nd'}{' '}
+            {electionType === '1'
+              ? 'Presidential'
+              : electionType === '2'
+              ? 'Legislative'
+              : 'Local'}
+            {' election - '}
+            {electionYear}
+          </Typography>
+        </Breadcrumbs>
+      </div>
       <div className='candidatesContainer'>
         {electionCandidates.map((candidate) => (
           <CandidateCard
             key={candidate.candidate_id}
-            imageUrl={`https://via.placeholder.com/150?text=${candidate.citizen_firstname}`}
+            imageUrl={
+              candidate.candidate_image ||
+              `https://via.placeholder.com/150?text=${candidate.citizen_firstname}`
+            }
             buttonAction={onVoteHandler.bind(this, candidate)}
-            name={`${candidate.citizen_firstname} ${candidate.citizen_lastname}`}
+            name={
+              candidate.citizen_firstname + ' ' + candidate.citizen_lastname
+            }
             party={candidate.candidate_party}
             buttonText={'Vote'}
           />

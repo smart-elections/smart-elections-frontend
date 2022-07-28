@@ -223,7 +223,7 @@ const Elections = () => {
                               )
                             }
                           >
-                            Register
+                            Register to Vote
                           </button>
                         ) : (
                           <CircularProgress />

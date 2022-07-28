@@ -63,10 +63,10 @@ const ElectionCandidates = () => {
             Elections
           </Typography>
           <Typography color='text.primary'>
-            {electionRound === 1 ? '1st' : '2nd'}{' '}
-            {electionType === 1
+            {electionRound === '1' ? '1st' : '2nd'}{' '}
+            {electionType === '1'
               ? 'Presidential'
-              : electionType === 2
+              : electionType === '2'
               ? 'Legislative'
               : 'Local'}
             {' election - '}
