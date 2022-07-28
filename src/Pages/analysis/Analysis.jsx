@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import axios from 'axios';
 
 import AnalyticsCard from '../../components/analyticsComponent/AnalyticsCard.jsx';
@@ -14,8 +13,6 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 import BarChart from '../../components/analyticsComponent/BarChart.js';
-
-const baseUrl = 'http://ec2-44-202-30-87.compute-1.amazonaws.com:8000';
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
@@ -61,7 +58,7 @@ const Analysis = () => {
     const fetchElectionsData = async () => {
       const {
         data: { data },
-      } = await axios(`${baseUrl}/elections?end='${today}'`);
+      } = await axios(`/elections?end='${today}'`);
       setLatestElections(data);
       setSelectedElection(
         `year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
@@ -74,7 +71,7 @@ const Analysis = () => {
 
       const fetchRegisteredData = async () => {
         const response1 = await axios(
-          `${baseUrl}/analytics/registered_voters?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
+          `/analytics/registered_voters?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
         );
         setSelectedElectionRegisteredVoters(response1.data.registered_voters);
         setSelectedElectionRegisteredVotersPercentage(
@@ -87,7 +84,7 @@ const Analysis = () => {
 
       const fetchVotesData = async () => {
         const response2 = await axios(
-          `${baseUrl}/analytics/voters?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
+          `/analytics/voters?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
         );
         setSelectedElectionVoters(response2.data.voters);
         setSelectedElectionVotersPercentage(
@@ -99,7 +96,7 @@ const Analysis = () => {
 
       const fetchWinnerData = async () => {
         const response3 = await axios(
-          `${baseUrl}/analytics/election_winner?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
+          `/analytics/election_winner?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
         );
         setSelectedElectionWinner(
           response3.data.winner.citizen_firstname +
@@ -115,7 +112,7 @@ const Analysis = () => {
 
       const fetchChartData = async () => {
         const response4 = await axios(
-          `${baseUrl}/analytics/election_winner?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
+          `/analytics/election_winner?year=${data[0].election_year}&round=${data[0].election_round}&type=${data[0].election_type}`
         );
         setChartData(response4.data.results);
       };
@@ -130,7 +127,7 @@ const Analysis = () => {
     setSelectedElection(e.target.value);
 
     let response = await axios(
-      `${baseUrl}/analytics/registered_voters?${e.target.value}`
+      `/analytics/registered_voters?${e.target.value}`
     );
 
     console.log('on election change', response.data);
@@ -140,16 +137,12 @@ const Analysis = () => {
       response.data.lastElectionDifference
     );
 
-    let response2 = await axios(
-      `${baseUrl}/analytics/voters?${e.target.value}`
-    );
+    let response2 = await axios(`/analytics/voters?${e.target.value}`);
 
     setSelectedElectionVoters(response2.data.voters);
     setSelectedElectionVotersPercentage(response2.data.lastElectionDifference);
 
-    let response3 = await axios(
-      `${baseUrl}/analytics/election_winner?${e.target.value}`
-    );
+    let response3 = await axios(`/analytics/election_winner?${e.target.value}`);
 
     setSelectedElectionWinner(
       response3.data.winner.citizen_firstname +
@@ -161,9 +154,7 @@ const Analysis = () => {
     setSelectedElectionWinnerParty(response3.data.winner.candidate_party);
     setSelectedElectionWinnerImage(response3.data.winner.candidate_image);
 
-    let response4 = await axios(
-      `${baseUrl}/analytics/election_winner?${e.target.value}`
-    );
+    let response4 = await axios(`/analytics/election_winner?${e.target.value}`);
 
     setChartData(response4.data.results);
   };
