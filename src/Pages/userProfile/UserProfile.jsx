@@ -55,8 +55,8 @@ const UserProfile = () => {
           {/* <p className='info'>{UserProfileData.PHONE_NUMBER}</p> */}
           <p className='subTitle'>MetaMask Wallet Address</p>
           <div className='metamask_box'>
-            {user.wallet_address.length !== 0 ? (
-              <p className='info'>{user.wallet_address}</p>
+            {user.wallet_address !== null ? (
+              <p className='info'>{user?.wallet_address}</p>
             ) : (
               <>
                 <div className='horizontal'>
