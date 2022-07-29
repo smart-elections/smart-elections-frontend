@@ -12,6 +12,26 @@ export const registerVoterForElection = async (body) => {
       }
     })
     .catch((error) => {
-      console.error('Login form: There was an error!', error);
+      console.error(error);
+    });
+};
+
+export const addVoteToElection = async (body, navigate) => {
+  console.log(body);
+
+  await axios
+    .post('/votes/add/vote', body)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log('Congratulations! You have voted successfully');
+        navigate(
+          `/elections/candidates/${body.election_year}/${body.election_round}/${body.election_type}`
+        );
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
     });
 };
