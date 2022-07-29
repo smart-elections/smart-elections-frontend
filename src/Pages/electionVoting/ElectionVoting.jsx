@@ -13,6 +13,9 @@ import {
   getElectionCandidates,
   connectWallet,
 } from '../../services/elections.services';
+
+import { addVoteToElection } from '../../services/votes.services';
+
 import CandidateCard from '../../components/candidateComponent/candidateCard.jsx';
 
 import Typography from '@mui/material/Typography';
@@ -29,8 +32,6 @@ const ElectionVoting = () => {
 
   const { electionYear, electionRound, electionType } = useParams();
   const navigate = useNavigate();
-
-  console.log(electionYear, electionRound, electionType);
 
   useEffect(() => {
     connectWallet(setCorrectNetwork, correctNetwork, setCurrentAccount);
@@ -91,7 +92,7 @@ const ElectionVoting = () => {
     }
   };
 
-  const onVoteHandler = async ({ candidate_id }) => {
+  const onVoteHandler = async (candidate) => {
     if (
       currentAccount === '' ||
       currentAccount === null ||
@@ -104,7 +105,21 @@ const ElectionVoting = () => {
       // if not, vote
       // if yes, toast message
 
-      castVote(candidate_id); // Sending vote transaction to blockchain
+      // console.log(candidate, candidate.candidate_id);
+
+      castVote(candidate.candidate_id); // Sending vote transaction to blockchain
+
+      addVoteToElection(
+        {
+          election_year: parseInt(electionYear),
+          election_type: parseInt(electionType),
+          election_round: parseInt(electionRound),
+          citizen_ssn: parseInt(user.citizen_ssn),
+          citizen_nationality: 'french',
+          candidate_id: candidate.candidate_id,
+        },
+        navigate
+      );
     }
   };
 
