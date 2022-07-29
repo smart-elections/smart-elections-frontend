@@ -7,26 +7,13 @@ import CustomMetaMaskModal from './CustomMetaMaskModal';
 // State Context
 import useAppStateContext from '../../hooks/useAppStateContext';
 
-const FIRST_NAME = 'first_name';
-const LAST_NAME = 'last_name';
-const GENDER = 'gender';
-const PLACE_OF_BIRTH = 'place_of_birth';
-const AUTHORITY = 'authority';
-const PHONE_NUMBER = 'phone_number';
-
 const UserProfile = () => {
-  const { appState, dispatch } = useAppStateContext();
+  const {
+    appState: { user },
+    dispatch,
+  } = useAppStateContext();
 
   // Temporarily until all user profile data are provided after login
-  const UserProfileData = {
-    ...appState.user,
-    FIRST_NAME,
-    LAST_NAME,
-    GENDER,
-    PLACE_OF_BIRTH,
-    AUTHORITY,
-    PHONE_NUMBER,
-  };
 
   const [open, setOpen] = useState(false);
 
@@ -45,29 +32,31 @@ const UserProfile = () => {
         <div className='mainTitle'>About you</div>
         <div className='infoBlock'>
           <p className='subTitle'>Social Security Number</p>
-          <p className='info'>{UserProfileData.citizen_ssn}</p>
+          <p className='info'>{user.citizen_ssn}</p>
           <div className='horizontal'>
-            <p className='subTitle'>First Name</p>
-            <p className='info'>{UserProfileData.FIRST_NAME}</p>
+            <p className='subTitle'>Username</p>
+            <p className='info'>{user.username}</p>
           </div>
-          <div className='horizontal'>
+          {/* <div className='horizontal'>
             <div className='rightHorizontal'>
               <p className='subTitle'>Last Name</p>
               <p className='info'>{UserProfileData.LAST_NAME}</p>
             </div>
-          </div>
+          </div> */}
           <p className='subTitle'>Gender</p>
-          <p className='info'>{UserProfileData.GENDER}</p>
-          <p className='subTitle'>Place Of Birth</p>
-          <p className='info-caps'>{UserProfileData.PLACE_OF_BIRTH}</p>
+          <p className='info'>
+            {user.citizen_gender === 1 ? 'Male' : 'Female'}
+          </p>
+          {/* <p className='subTitle'>Place Of Birth</p> */}
+          {/* <p className='info-caps'>{PLACE_OF_BIRTH}</p> */}
           <p className='subTitle'>Authority</p>
-          <p className='info-caps'>{UserProfileData.AUTHORITY}</p>
-          <p className='subTitle'>Phone Number</p>
-          <p className='info'>{UserProfileData.PHONE_NUMBER}</p>
+          <p className='info-caps'>{user.citizen_commune}</p>
+          {/* <p className='subTitle'>Phone Number</p> */}
+          {/* <p className='info'>{UserProfileData.PHONE_NUMBER}</p> */}
           <p className='subTitle'>MetaMask Wallet Address</p>
           <div className='metamask_box'>
-            {UserProfileData.wallet_address.length !== 0 ? (
-              <p className='info'>{UserProfileData.wallet_address}</p>
+            {user.wallet_address.length !== 0 ? (
+              <p className='info'>{user.wallet_address}</p>
             ) : (
               <>
                 <div className='horizontal'>
@@ -84,7 +73,7 @@ const UserProfile = () => {
                       Add Address
                     </button>
                     <CustomMetaMaskModal
-                      citizen_ssn={appState?.user.citizen_ssn}
+                      citizen_ssn={user.citizen_ssn}
                       open={open}
                       handleClose={handleClose}
                       dispatch={dispatch}
